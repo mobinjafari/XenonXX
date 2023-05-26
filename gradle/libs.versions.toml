@@ -19,6 +19,7 @@ junit = "4.13.2"
 kotlin = "1.8.21"
 ksp = "1.8.20-1.0.11"
 
+
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
