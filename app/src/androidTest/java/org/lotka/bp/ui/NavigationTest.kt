@@ -14,38 +14,29 @@
  * limitations under the License.
  */
 
-package org.lotka.template.ui.dataitemtype
+package org.lotka.bp.ui
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Before
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
+import org.lotka.bp.data.di.fakeDataItemTypes
 
-/**
- * UI tests for [DataItemTypeScreen].
- */
-@RunWith(AndroidJUnit4::class)
-class DataItemTypeScreenTest {
+@HiltAndroidTest
+class NavigationTest {
 
-    @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+    @get:Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
 
-    @Before
-    fun setup() {
-        composeTestRule.setContent {
-            DataItemTypeScreen(FAKE_DATA, onSave = {})
-        }
-    }
+    @get:Rule(order = 1)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun firstItem_exists() {
-        composeTestRule.onNodeWithText(FAKE_DATA.first()).assertExists().performClick()
+    fun test1() {
+        // TODO: Add navigation tests
+        composeTestRule.onNodeWithText(fakeDataItemTypes.first(), substring = true).assertExists()
     }
 }
 
-private val FAKE_DATA = listOf("Compose", "Room", "Kotlin")

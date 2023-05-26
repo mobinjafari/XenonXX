@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lotka.template
+package org.lotka.bp
 
 import android.app.Application
 import android.content.Context

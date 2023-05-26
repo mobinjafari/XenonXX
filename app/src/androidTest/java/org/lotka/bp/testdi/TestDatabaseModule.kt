@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.lotka.template.testdi
+package org.lotka.bp.testdi
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import org.lotka.template.data.DataItemTypeRepository
-import org.lotka.template.data.di.DataModule
-import org.lotka.template.data.di.FakeDataItemTypeRepository
+import org.lotka.bp.data.DataItemTypeRepository
+import org.lotka.bp.data.di.DataModule
+import org.lotka.bp.data.di.FakeDataItemTypeRepository
 
 @Module
 @TestInstallIn(

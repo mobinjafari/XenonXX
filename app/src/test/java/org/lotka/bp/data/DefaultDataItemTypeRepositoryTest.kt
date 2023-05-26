@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-package org.lotka.template.ui.dataitemtype
-
+package org.lotka.bp.data
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -24,36 +23,35 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.lotka.template.data.DataItemTypeRepository
+import org.lotka.bp.data.local.database.DataItemType
+import org.lotka.bp.data.local.database.DataItemTypeDao
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * Unit tests for [DefaultDataItemTypeRepository].
  */
 @OptIn(ExperimentalCoroutinesApi::class) // TODO: Remove when stable
-class DataItemTypeViewModelTest {
-    @Test
-    fun uiState_initiallyLoading() = runTest {
-        val viewModel = DataItemTypeViewModel(FakeDataItemTypeRepository())
-        assertEquals(viewModel.uiState.first(), DataItemTypeUiState.Loading)
-    }
+class DefaultDataItemTypeRepositoryTest {
 
     @Test
-    fun uiState_onItemSaved_isDisplayed() = runTest {
-        val viewModel = DataItemTypeViewModel(FakeDataItemTypeRepository())
-        assertEquals(viewModel.uiState.first(), DataItemTypeUiState.Loading)
+    fun dataItemTypes_newItemSaved_itemIsReturned() = runTest {
+        val repository = DefaultDataItemTypeRepository(FakeDataItemTypeDao())
+
+        repository.add("Repository")
+
+        assertEquals(repository.dataItemTypes.first().size, 1)
     }
+
 }
 
-private class FakeDataItemTypeRepository : DataItemTypeRepository {
+private class FakeDataItemTypeDao : DataItemTypeDao {
 
-    private val data = mutableListOf<String>()
+    private val data = mutableListOf<DataItemType>()
 
-    override val dataItemTypes: Flow<List<String>>
-        get() = flow { emit(data.toList()) }
+    override fun getDataItemTypes(): Flow<List<DataItemType>> = flow {
+        emit(data)
+    }
 
-    override suspend fun add(name: String) {
-        data.add(0, name)
+    override suspend fun insertDataItemType(item: DataItemType) {
+        data.add(0, item)
     }
 }

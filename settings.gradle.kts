@@ -28,6 +28,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "MobinTesst"
+rootProject.name = "BestPractice"
 
 include(":app")
