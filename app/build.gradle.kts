@@ -24,17 +24,17 @@ plugins {
 }
 
 android {
-    namespace = "org.lotka.template"
+    namespace = "org.lotka.bp"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "org.lotka.template"
+        applicationId = "org.lotka.bp"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "org.lotka.template.HiltTestRunner"
+        testInstrumentationRunner = "org.lotka.bp.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -128,4 +128,20 @@ dependencies {
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
+
+    //network
+   implementation(libs.squareup.retrofit2.retrofit)
+    implementation(libs.squareup.retrofit2.gson)
+    implementation(libs.squareup.okhttp.okhttp)
+    implementation(libs.squareup.okhttp.interceptor)
+
+
+    //datastore
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+    // For loading and tinting drawables on older versions of the platform
+    implementation ("androidx.appcompat:appcompat-resources:1.6.1")
 }
