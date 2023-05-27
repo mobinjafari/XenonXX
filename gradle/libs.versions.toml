@@ -47,9 +47,9 @@ hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", vers
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 junit = { module = "junit:junit", version.ref = "junit" }
+
+
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-
-
 squareup-retrofit2-retrofit =  { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 squareup-retrofit2-gson =  { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 squareup-okhttp-okhttp =  { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3" }
