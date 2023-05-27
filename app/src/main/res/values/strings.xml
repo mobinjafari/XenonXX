@@ -15,5 +15,5 @@
   -->
 
 <resources>
-    <string name="app_name">BestPractice</string>
+    <string name="app_name">BestPracticeKotlin</string>
 </resources>
