@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -48,6 +49,10 @@ class MainActivity : AppCompatActivity(){
   @ExperimentalComposeUiApi
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    // This app draws behind the system bars, so we want to handle fitting system windows
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+
     setContent {
       val navController = rememberNavController()
         NavHost(navController = navController, startDestination = Screen.RecipeList.route) {
