@@ -9,8 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import org.lotka.bp.domain.model.Recipe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -24,9 +27,11 @@ fun RecipeView(
             .fillMaxWidth()
     ) {
         item {
-
-            Image(
-                painter = rememberImagePainter(recipe.featuredImage),
+            AsyncImage(
+                model= ImageRequest.Builder(LocalContext.current)
+                    .data(recipe.featuredImage)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()

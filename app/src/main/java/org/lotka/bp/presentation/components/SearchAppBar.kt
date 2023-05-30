@@ -38,7 +38,7 @@ fun SearchAppBar(
   onSelectedCategoryChanged: (String) -> Unit,
   onToggleTheme: () -> Unit,
 ) {
-  val focusManager = LocalFocusManager.current
+ // val focusManager = LocalFocusManager.current
   val keyboardController = LocalSoftwareKeyboardController.current
   Surface(
     modifier = Modifier
@@ -67,7 +67,7 @@ fun SearchAppBar(
             onDone = {
               onExecuteSearch()
 //              focusManager.clearFocus(forcedClear = true) // close keyboard
-               keyboardController?.hideSoftwareKeyboard() // another way to close keyboard
+              keyboardController?.hide() // another way to close keyboard
             },
           ),
           leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon") },
