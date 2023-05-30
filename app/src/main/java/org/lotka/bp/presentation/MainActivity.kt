@@ -2,6 +2,7 @@ package org.lotka.bp.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
@@ -27,7 +28,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(){
+class MainActivity : ComponentActivity(){
 
   @Inject
   lateinit var connectivityManager: ConnectivityManager
