@@ -147,12 +147,14 @@ dependencies {
     // For loading and tinting drawables on older versions of the platform
     implementation ("androidx.appcompat:appcompat-resources:1.6.1")
 
-    implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation ("com.google.accompanist:accompanist-coil:0.7.0")
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
     implementation ("androidx.datastore:datastore-preferences:1.0.0-alpha06")
 
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03")
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10")
 
 
 }

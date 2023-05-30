@@ -1,5 +1,6 @@
 package org.lotka.bp.presentation.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import org.lotka.bp.presentation.components.*
 import java.util.*
 
+@SuppressLint("ConflictingOnColor")
 private val LightThemeColors = lightColors(
   primary = Blue600,
   primaryVariant = Blue400,

@@ -1,5 +1,6 @@
 package org.lotka.bp.presentation.ui.recipe_list
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -12,6 +13,7 @@ import org.lotka.bp.presentation.theme.AppTheme
 import org.lotka.bp.util.TAG
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
