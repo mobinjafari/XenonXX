@@ -1,11 +1,11 @@
 package org.lotka.bp.domain.model
 
-import java.util.Date
+import java.util.*
 
 /**
  * See Recipe example: https://food2fork.ca/
  */
-data class Recipe(
+data class Recipe (
     val id: Int,
     val title: String,
     val publisher: String,

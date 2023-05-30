@@ -41,27 +41,27 @@ class RecipeEntityMapper : DomainMapper<RecipeEntity, Recipe> {
      */
     private fun convertIngredientListToString(ingredients: List<String>): String {
         val ingredientsString = StringBuilder()
-        for (ingredient in ingredients) {
+        for(ingredient in ingredients){
             ingredientsString.append("$ingredient,")
         }
         return ingredientsString.toString()
     }
 
-    private fun convertIngredientsToList(ingredientsString: String?): List<String> {
+    private fun convertIngredientsToList(ingredientsString: String?): List<String>{
         val list: ArrayList<String> = ArrayList()
         ingredientsString?.let {
-            for (ingredient in it.split(",")) {
+            for(ingredient in it.split(",")){
                 list.add(ingredient)
             }
         }
         return list
     }
 
-    fun fromEntityList(initial: List<RecipeEntity>): List<Recipe> {
+    fun fromEntityList(initial: List<RecipeEntity>): List<Recipe>{
         return initial.map { mapToDomainModel(it) }
     }
 
-    fun toEntityList(initial: List<Recipe>): List<RecipeEntity> {
+    fun toEntityList(initial: List<Recipe>): List<RecipeEntity>{
         return initial.map { mapFromDomainModel(it) }
     }
 }

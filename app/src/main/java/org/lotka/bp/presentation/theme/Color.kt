@@ -2,13 +2,6 @@ package org.lotka.bp.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-
-val primary_background = Color(0xFF222831)
-val primary_dark = Color(0xFF393E46)
-val primary_yellow = Color(0xFFFFD369)
-val primary_white = Color(0xFFEEEEEE)
-
-
 val Blue300 = Color(0xFF64B5F6)
 val Blue400 = Color(0xFF42A5F5)
 val Blue500 = Color(0xFF2196F3)

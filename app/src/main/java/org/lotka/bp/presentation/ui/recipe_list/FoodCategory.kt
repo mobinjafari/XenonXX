@@ -1,19 +1,9 @@
 package org.lotka.bp.presentation.ui.recipe_list
 
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.BEEF
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.CHICKEN
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.DESSERT
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.DONUT
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.ERROR
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.MILK
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.PIZZA
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.SOUP
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.VEGAN
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.VEGETARIAN
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.values
+import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.*
 
 
-enum class FoodCategory(val value: String) {
+enum class FoodCategory(val value: String){
     ERROR("error"),
     CHICKEN("Chicken"),
     BEEF("Beef"),
@@ -26,10 +16,9 @@ enum class FoodCategory(val value: String) {
     DONUT("Donut"),
 }
 
-fun getAllFoodCategories(): List<FoodCategory> {
+fun getAllFoodCategories(): List<FoodCategory>{
     return listOf(
-        ERROR, CHICKEN, BEEF, SOUP, DESSERT, VEGETARIAN, MILK, VEGAN, PIZZA, DONUT
-    )
+        ERROR, CHICKEN, BEEF, SOUP, DESSERT, VEGETARIAN, MILK, VEGAN, PIZZA, DONUT)
 }
 
 fun getFoodCategory(value: String): FoodCategory? {

@@ -4,15 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.lotka.bp.domain.model.Recipe
 import org.lotka.bp.presentation.navigation.Screen
 import org.lotka.bp.presentation.ui.recipe_list.PAGE_SIZE
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
 fun RecipeList(
@@ -22,17 +24,18 @@ fun RecipeList(
     page: Int,
     onTriggerNextPage: () -> Unit,
     onNavigateToRecipeDetailScreen: (String) -> Unit,
-) {
-    Box(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.surface)
+){
+    Box(modifier = Modifier
+        .background(color = MaterialTheme.colors.surface)
     ) {
         if (loading && recipes.isEmpty()) {
-            LoadingRecipeListShimmer(imageHeight = 250.dp)
-        } else if (recipes.isEmpty()) {
+            LoadingRecipeListShimmer(imageHeight = 250.dp,)
+        }
+        else if(recipes.isEmpty()){
             NothingHere()
-        } else {
-            LazyColumn {
+        }
+        else {
+            LazyColumn{
                 itemsIndexed(
                     items = recipes
                 ) { index, recipe ->

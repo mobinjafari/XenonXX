@@ -113,6 +113,8 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material.iconsExtended)
     // Tooling
     debugImplementation(libs.androidx.compose.ui.tooling)
     // Instrumented tests
@@ -144,4 +146,13 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.6.1")
     // For loading and tinting drawables on older versions of the platform
     implementation ("androidx.appcompat:appcompat-resources:1.6.1")
+
+    implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
+
+    implementation ("com.google.accompanist:accompanist-coil:0.7.0")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0-alpha06")
+
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03")
+
+
 }

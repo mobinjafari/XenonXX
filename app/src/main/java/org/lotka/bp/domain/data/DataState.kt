@@ -4,12 +4,12 @@ data class DataState<out T>(
     val data: T? = null,
     val error: String? = null,
     val loading: Boolean = false,
-) {
-    companion object {
+){
+    companion object{
 
         fun <T> success(
             data: T
-        ): DataState<T> {
+        ): DataState<T>{
             return DataState(
                 data = data,
             )
@@ -17,7 +17,7 @@ data class DataState<out T>(
 
         fun <T> error(
             message: String,
-        ): DataState<T> {
+        ): DataState<T>{
             return DataState(
                 error = message
             )

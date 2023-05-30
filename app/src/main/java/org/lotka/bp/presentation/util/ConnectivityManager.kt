@@ -10,20 +10,20 @@ import javax.inject.Singleton
 class ConnectivityManager
 @Inject
 constructor(
-    application: Application,
+  application: Application,
 ) {
-    private val connectionLiveData = ConnectionLiveData(application)
+  private val connectionLiveData = ConnectionLiveData(application)
 
-    // observe this in ui
-    val isNetworkAvailable = mutableStateOf(false)
+  // observe this in ui
+  val isNetworkAvailable = mutableStateOf(false)
 
-    fun registerConnectionObserver(lifecycleOwner: LifecycleOwner) {
-        connectionLiveData.observe(lifecycleOwner, { isConnected ->
-            isConnected?.let { isNetworkAvailable.value = it }
-        })
-    }
+  fun registerConnectionObserver(lifecycleOwner: LifecycleOwner){
+    connectionLiveData.observe(lifecycleOwner, { isConnected ->
+      isConnected?.let { isNetworkAvailable.value = it }
+    })
+  }
 
-    fun unregisterConnectionObserver(lifecycleOwner: LifecycleOwner) {
-        connectionLiveData.removeObservers(lifecycleOwner)
-    }
+  fun unregisterConnectionObserver(lifecycleOwner: LifecycleOwner){
+    connectionLiveData.removeObservers(lifecycleOwner)
+  }
 }
