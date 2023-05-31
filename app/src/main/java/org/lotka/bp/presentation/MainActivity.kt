@@ -40,6 +40,7 @@ import org.lotka.bp.presentation.ui.recipe_list.RecipeListViewModel
 import org.lotka.bp.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.lotka.bp.presentation.theme.navBackGround
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -76,7 +77,6 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             Scaffold(
-                topBar = { TopBar() },
                 bottomBar = { BottomNavigationBar(navController) },
                 content = { padding ->
                     Box(modifier = Modifier.padding(padding)) {
@@ -84,13 +84,13 @@ class MainActivity : ComponentActivity() {
                             composable(route=NavigationItem.Home.route) {
                                 HomeScreen()
                             }
-                            composable(route=NavigationItem.Music.route) {
+                            composable(route=NavigationItem.News.route) {
                                 MusicScreen()
                             }
-                            composable(route=NavigationItem.Movies.route) {
+                            composable(route=NavigationItem.Tabs.route) {
                                 MoviesScreen()
                             }
-                            composable(route=NavigationItem.Books.route) {
+                            composable(route=NavigationItem.Apps.route) {
                                 BooksScreen()
                             }
                             composable(route=NavigationItem.Profile.route) {
@@ -144,41 +144,27 @@ class MainActivity : ComponentActivity() {
 
 
 
-@Composable
-fun TopBar() {
-    TopAppBar(
-        title = { Text(text = "Mobin App", fontSize = 18.sp) },
-        backgroundColor = Color.White,
-        contentColor = Color.White
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TopBarPreview() {
-    TopBar()
-}
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        NavigationItem.List,
         NavigationItem.Home,
-        NavigationItem.Music,
-        NavigationItem.Movies,
-        NavigationItem.Books,
-        NavigationItem.Profile
+        NavigationItem.News,
+        NavigationItem.List,
+        NavigationItem.Tabs,
+        NavigationItem.Apps
+
     )
     BottomNavigation(
-        backgroundColor = Color.Black,
-        contentColor = Color.White
+        backgroundColor = navBackGround,
+  //      contentColor = Color.White
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
-                label = { Text(text = item.title) },
+                label = { Text(text = item.title , color = Color.White) },
                 selectedContentColor = Color.White,
                 unselectedContentColor = Color.White.copy(0.4f),
                 alwaysShowLabel = true,
@@ -204,17 +190,4 @@ fun BottomNavigationBar(navController: NavController) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
