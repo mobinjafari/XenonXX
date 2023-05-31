@@ -5,6 +5,10 @@ import org.lotka.bp.R
 
 
 sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
+
+    object List : NavigationItem("list", R.drawable.ic_launcher_foreground, "list")
+
+    object Details : NavigationItem("details", R.drawable.ic_launcher_foreground, "details")
     object Home : NavigationItem("home", R.drawable.ic_launcher_foreground, "Home")
     object Music : NavigationItem("music", R.drawable.ic_launcher_foreground, "Music")
     object Movies : NavigationItem("movies", R.drawable.ic_launcher_foreground, "Movies")

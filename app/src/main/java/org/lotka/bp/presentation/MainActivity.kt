@@ -1,41 +1,11 @@
 package org.lotka.bp.presentation
 
 
-//val navController = rememberNavController()
-//NavHost(navController = navController, startDestination = Screen.RecipeList.route) {
-//
-//  composable(route = Screen.RecipeList.route) { navBackStackEntry ->
-//    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-//    val viewModel: RecipeListViewModel = viewModel(this@MainActivity  , "RecipeListViewModel", factory)
-//    RecipeListScreen(
-//      isDarkTheme = settingsDataStore.isDark.value,
-//      isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
-//      onToggleTheme = settingsDataStore::toggleTheme,
-//      onNavigateToRecipeDetailScreen = navController::navigate,
-//      viewModel = viewModel,
-//    )
-//  }
-//  composable(
-//    route = Screen.RecipeDetail.route + "/{recipeId}",
-//    arguments = listOf(navArgument("recipeId") {
-//      type = NavType.IntType
-//    })
-//  ) { navBackStackEntry ->
-//    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-//    val viewModel: RecipeViewModel = viewModel(this@MainActivity ,"RecipeDetailViewModel", factory)
-//    RecipeDetailScreen(
-//      isDarkTheme = settingsDataStore.isDark.value,
-//      isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
-//      recipeId = navBackStackEntry.arguments?.getInt("recipeId"),
-//      viewModel = viewModel,
-//    )
-//  }
-//}
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -51,16 +21,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
@@ -105,49 +72,77 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            MainScreen()
+
+            val navController = rememberNavController()
+
+            Scaffold(
+                topBar = { TopBar() },
+                bottomBar = { BottomNavigationBar(navController) },
+                content = { padding ->
+                    Box(modifier = Modifier.padding(padding)) {
+                        NavHost(navController, startDestination = NavigationItem.List.route) {
+                            composable(route=NavigationItem.Home.route) {
+                                HomeScreen()
+                            }
+                            composable(route=NavigationItem.Music.route) {
+                                MusicScreen()
+                            }
+                            composable(route=NavigationItem.Movies.route) {
+                                MoviesScreen()
+                            }
+                            composable(route=NavigationItem.Books.route) {
+                                BooksScreen()
+                            }
+                            composable(route=NavigationItem.Profile.route) {
+                                ProfileScreen()
+                            }
+
+                            composable(route = NavigationItem.List.route) { navBackStackEntry ->
+                                val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                                val viewModel: RecipeListViewModel =
+                                    viewModel(this@MainActivity, "RecipeListViewModel", factory)
+                                RecipeListScreen(
+                                    isDarkTheme = settingsDataStore.isDark.value,
+                                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                                    onToggleTheme = settingsDataStore::toggleTheme,
+                                    onNavigateToRecipeDetailScreen = navController::navigate,
+                                    viewModel = viewModel,
+                                )
+                            }
+
+
+                            composable(
+                                route = Screen.RecipeDetail.route + "/{recipeId}",
+                                arguments = listOf(navArgument("recipeId") {
+                                    type = NavType.IntType
+                                })
+                            ) { navBackStackEntry ->
+                                val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                                val viewModel: RecipeViewModel =
+                                    viewModel(this@MainActivity, "RecipeDetailViewModel", factory)
+                                RecipeDetailScreen(
+                                    isDarkTheme = settingsDataStore.isDark.value,
+                                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                                    recipeId = navBackStackEntry.arguments?.getInt("recipeId"),
+                                    viewModel = viewModel,
+                                )
+                            }
+                        }
+                    }
+                },
+            )
+
+
+
         }
 
     }
 
 }
 
-@Composable
-fun MainScreen() {
-    val navController = rememberNavController()
-    Scaffold(
-        topBar = { TopBar() },
-        bottomBar = { BottomNavigationBar(navController) },
-        content = { padding ->
-            Box(modifier = Modifier.padding(padding)) {
-                Navigation(navController = navController)
-            }
-        },
-    // containerColor = colorResource(R.color.colorPrimaryDark) // Set background color to avoid the white flashing when you switch between screens
-    )
-}
 
 
-@Composable
-fun Navigation(navController: NavHostController) {
-    NavHost(navController, startDestination = NavigationItem.Home.route) {
-        composable(NavigationItem.Home.route) {
-            HomeScreen()
-        }
-        composable(NavigationItem.Music.route) {
-            MusicScreen()
-        }
-        composable(NavigationItem.Movies.route) {
-            MoviesScreen()
-        }
-        composable(NavigationItem.Books.route) {
-            BooksScreen()
-        }
-        composable(NavigationItem.Profile.route) {
-            ProfileScreen()
-        }
-    }
-}
+
 
 @Composable
 fun TopBar() {
@@ -167,6 +162,7 @@ fun TopBarPreview() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
+        NavigationItem.List,
         NavigationItem.Home,
         NavigationItem.Music,
         NavigationItem.Movies,
