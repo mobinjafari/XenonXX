@@ -9,6 +9,43 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.lotka.bp.R
 
+private val Chrome = FontFamily(
+        Font(R.font.segoe, FontWeight.W300),
+        Font(R.font.segoe_bing, FontWeight.W400),
+        Font(R.font.segoe_semibold, FontWeight.W500),
+)
+
+
+
+
+val ChromeTypography = Typography(
+        h1 = TextStyle(
+                fontFamily = Chrome,
+                fontWeight = FontWeight.W500,
+                fontSize = 12.sp,
+        ),
+        h2 = TextStyle(
+                fontFamily = Chrome,
+                fontWeight = FontWeight.W500,
+                fontSize = 16.sp,
+        ),
+        h3 = TextStyle(
+                fontFamily = Chrome,
+                fontWeight = FontWeight.W500,
+                fontSize = 20.sp,
+        ),
+        h4 = TextStyle(
+                fontFamily = Chrome,
+                fontWeight = FontWeight.W500,
+                fontSize = 20.sp,
+        ),
+        h5 = TextStyle(
+                fontFamily = Chrome,
+                fontWeight = FontWeight.W500,
+                fontSize = 20.sp,
+        ),
+
+)
 
 private val QuickSand = FontFamily(
         Font(R.font.quicksand_light, FontWeight.W300),
