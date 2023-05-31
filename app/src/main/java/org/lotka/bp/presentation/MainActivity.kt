@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity(){
     super.onStart()
     connectivityManager.registerConnectionObserver(this)
   }
-
   override fun onDestroy() {
     super.onDestroy()
     connectivityManager.unregisterConnectionObserver(this)

@@ -45,6 +45,7 @@ android {
         }
     }
 
+
     buildTypes {
         getByName("release") {
             isDebuggable = true
