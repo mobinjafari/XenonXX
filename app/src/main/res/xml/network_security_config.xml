@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="true">
+<!--    <domain includeSubdomains="true">beta.kilid.org</domain>-->
+    <domain includeSubdomains="true">beta.verticallabs.xyz</domain>
+    <domain includeSubdomains="true">upload.kilid.org</domain>
+    <domain includeSubdomains="true">cdn.kilid.com</domain>
+  </domain-config>
+</network-security-config>
