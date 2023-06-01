@@ -16,8 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.lotka.bp.presentation.ui.home.FoodCategory
-import org.lotka.bp.presentation.ui.home.RecipeListEvent
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -56,16 +54,16 @@ constructor(
     val dialogQueue = DialogQueue()
 
     init {
-        savedStateHandle.get<Int>(org.lotka.bp.presentation.ui.home.STATE_KEY_PAGE)?.let { p ->
+        savedStateHandle.get<Int>(STATE_KEY_PAGE)?.let { p ->
             setPage(p)
         }
-        savedStateHandle.get<String>(org.lotka.bp.presentation.ui.home.STATE_KEY_QUERY)?.let { q ->
+        savedStateHandle.get<String>(STATE_KEY_QUERY)?.let { q ->
             setQuery(q)
         }
-        savedStateHandle.get<Int>(org.lotka.bp.presentation.ui.home.STATE_KEY_LIST_POSITION)?.let { p ->
+        savedStateHandle.get<Int>(STATE_KEY_LIST_POSITION)?.let { p ->
             setListScrollPosition(p)
         }
-        savedStateHandle.get<FoodCategory>(org.lotka.bp.presentation.ui.home.STATE_KEY_SELECTED_CATEGORY)?.let { c ->
+        savedStateHandle.get<FoodCategory>(STATE_KEY_SELECTED_CATEGORY)?.let { c ->
             setSelectedCategory(c)
         }
 
@@ -136,7 +134,7 @@ constructor(
     }
 
     private fun nextPage() {
-        if ((recipeListScrollPosition + 1) >= (page.value * org.lotka.bp.presentation.ui.home.PAGE_SIZE)) {
+        if ((recipeListScrollPosition + 1) >= (page.value * PAGE_SIZE)) {
             incrementPage()
             Log.d(TAG, "nextPage: triggered: ${page.value}")
 
@@ -194,29 +192,29 @@ constructor(
     }
 
     fun onSelectedCategoryChanged(category: String) {
-        val newCategory = org.lotka.bp.presentation.ui.home.getFoodCategory(category)
+        val newCategory = getFoodCategory(category)
         setSelectedCategory(newCategory)
         onQueryChanged(category)
     }
 
     private fun setListScrollPosition(position: Int){
         recipeListScrollPosition = position
-        savedStateHandle.set(org.lotka.bp.presentation.ui.home.STATE_KEY_LIST_POSITION, position)
+        savedStateHandle.set(STATE_KEY_LIST_POSITION, position)
     }
 
     private fun setPage(page: Int){
         this.page.value = page
-        savedStateHandle.set(org.lotka.bp.presentation.ui.home.STATE_KEY_PAGE, page)
+        savedStateHandle.set(STATE_KEY_PAGE, page)
     }
 
     private fun setSelectedCategory(category: FoodCategory?){
         selectedCategory.value = category
-        savedStateHandle.set(org.lotka.bp.presentation.ui.home.STATE_KEY_SELECTED_CATEGORY, category)
+        savedStateHandle.set(STATE_KEY_SELECTED_CATEGORY, category)
     }
 
     private fun setQuery(query: String){
         this.query.value = query
-        savedStateHandle.set(org.lotka.bp.presentation.ui.home.STATE_KEY_QUERY, query)
+        savedStateHandle.set(STATE_KEY_QUERY, query)
     }
 }
 

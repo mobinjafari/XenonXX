@@ -12,8 +12,6 @@ import org.lotka.bp.presentation.components.SearchAppBar
 import org.lotka.bp.presentation.theme.AppTheme
 import org.lotka.bp.util.TAG
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.lotka.bp.presentation.ui.home.RecipeListEvent
-import org.lotka.bp.presentation.ui.home.RecipeListViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalComposeUiApi
@@ -58,7 +56,7 @@ fun RecipeListScreen(
           onExecuteSearch = {
             viewModel.onTriggerEvent(RecipeListEvent.NewSearchEvent)
           },
-          categories = org.lotka.bp.presentation.ui.home.getAllFoodCategories(),
+          categories = getAllFoodCategories(),
           selectedCategory = selectedCategory,
           onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
           onToggleTheme = { onToggleTheme() }

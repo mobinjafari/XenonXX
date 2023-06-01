@@ -38,8 +38,8 @@ import org.lotka.bp.presentation.theme.navigationLightThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationLightThemeItemColor
 import org.lotka.bp.presentation.ui.recipe.RecipeDetailScreen
 import org.lotka.bp.presentation.ui.recipe.RecipeViewModel
-import org.lotka.bp.presentation.ui.home.RecipeListScreen
-import org.lotka.bp.presentation.ui.home.RecipeListViewModel
+import org.lotka.bp.presentation.ui.recipe_list.RecipeListScreen
+import org.lotka.bp.presentation.ui.recipe_list.RecipeListViewModel
 import org.lotka.bp.presentation.util.ConnectivityManager
 
 @OptIn(
