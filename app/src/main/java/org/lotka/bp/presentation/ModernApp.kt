@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.lotka.bp.datastore.SettingsDataStore
+import org.lotka.bp.presentation.navigation.NavigationItem
 import org.lotka.bp.presentation.navigation.Screen
 import org.lotka.bp.presentation.theme.navigationDarkThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationDarkThemeItemColor
@@ -40,6 +41,8 @@ import org.lotka.bp.presentation.ui.recipe.RecipeDetailScreen
 import org.lotka.bp.presentation.ui.recipe.RecipeViewModel
 import org.lotka.bp.presentation.ui.recipe_list.RecipeListScreen
 import org.lotka.bp.presentation.ui.recipe_list.RecipeListViewModel
+import org.lotka.bp.presentation.ui.template.TemplateScreen
+import org.lotka.bp.presentation.ui.template.TemplateViewModel
 import org.lotka.bp.presentation.util.ConnectivityManager
 
 @OptIn(
@@ -82,9 +85,22 @@ fun ModernApp(
                         isDarkTheme = settingsDataStore.isDark.value,
                     )
                 }
-                composable(route = NavigationItem.Insights.route) {
-                    MusicScreen()
+                composable(
+                    route = NavigationItem.Template.route
+                ) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: TemplateViewModel =
+                        viewModel(activity, "TemplateViewModel", factory)
+
+                    TemplateScreen(
+                        isDarkTheme = settingsDataStore.isDark.value,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        onToggleTheme = settingsDataStore::toggleTheme,
+                        onNavigateToRecipeDetailScreen = navController::navigate,
+                        viewModel = viewModel,
+                    )
                 }
+
                 composable(route = NavigationItem.Explore.route) {
                     MoviesScreen()
                 }
@@ -94,6 +110,7 @@ fun ModernApp(
                 composable(route = NavigationItem.Profile.route) {
                     ProfileScreen()
                 }
+
 
                 composable(
                     route = NavigationItem.List.route
@@ -110,6 +127,8 @@ fun ModernApp(
                         viewModel = viewModel,
                     )
                 }
+
+
 
 
                 composable(
@@ -211,17 +230,17 @@ fun BottomNavigationBar(
                 }
             })
 
-        //News
+        //Template
         BottomNavigationItem(icon = {
             Icon(
-                painterResource(id = NavigationItem.Insights.icon),
-                contentDescription = NavigationItem.Home.title,
+                painterResource(id = NavigationItem.Template.icon),
+                contentDescription = NavigationItem.Template.title,
                 Modifier.size(navIconSize)
             )
         },
             label = {
                 Text(
-                    text = NavigationItem.Insights.title,
+                    text = NavigationItem.Template.title,
                     color = navItemColor,
                     style = navItemFontStyle
                 )
@@ -230,9 +249,9 @@ fun BottomNavigationBar(
             unselectedContentColor = navItemColor,
             alwaysShowLabel = true,
 
-            selected = currentRoute == NavigationItem.Insights.route,
+            selected = currentRoute == NavigationItem.Template.route,
             onClick = {
-                navController.navigate(NavigationItem.Insights.route) {
+                navController.navigate(NavigationItem.Template.route) {
                     // Pop up to the start destination of the graph to
                     // avoid building up a large stack of destinations
                     // on the back stack as users select items

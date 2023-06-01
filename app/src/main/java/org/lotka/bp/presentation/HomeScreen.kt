@@ -3,6 +3,7 @@ package org.lotka.bp.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,23 +21,34 @@ fun HomeScreen(
     paddingValues: PaddingValues,
     onToggleTheme: () -> Unit,
     isDarkTheme: Boolean,) {
-    Column(
-        modifier = Modifier
+
+    LazyColumn(modifier = Modifier
             .fillMaxSize()
-            .background(if(isDarkTheme) Color(0xFF000000) else Color(0xFFffffff))
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Text(
-            text = "Home",
-            fontWeight = FontWeight.Bold,
-            color = if(isDarkTheme) Color(0xFFffffff) else Color(0xFF000000),
-            textAlign = TextAlign.Center,
-            fontSize = 29.sp,
-            modifier = Modifier.clickable {
-                onToggleTheme()
+            .background(if (isDarkTheme) Color(0xFF000000) else Color(0xFFffffff))
+            .padding(top = paddingValues.calculateTopPadding())
+
+        , content = {
+
+            var a : Int
+            //create a loop to add 100 items to the list
+            for (i in 0..100) {
+                item {
+                    Text(
+                        text = "Item $i",
+                        fontWeight = FontWeight.Bold,
+                        color = if(isDarkTheme) Color(0xFFffffff) else Color(0xFF000000),
+                        textAlign = TextAlign.Center,
+                        fontSize = 29.sp,
+                        modifier = Modifier.clickable {
+                            onToggleTheme()
+                        }
+                    )
+                }
             }
-        )
-    }
+
+
+    })
+
 }
 
 @Composable

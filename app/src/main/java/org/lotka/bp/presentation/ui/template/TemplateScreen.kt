@@ -1,4 +1,4 @@
-package org.lotka.bp.presentation.ui.recipe_list
+package org.lotka.bp.presentation.ui.template
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -7,11 +7,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.lotka.bp.presentation.components.RecipeList
-import org.lotka.bp.presentation.components.SearchAppBar
 import org.lotka.bp.presentation.theme.AppTheme
 import org.lotka.bp.util.TAG
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -19,12 +18,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @Composable
-fun RecipeListScreen(
+fun TemplateScreen(
   isDarkTheme: Boolean,
   isNetworkAvailable: Boolean,
   onToggleTheme: () -> Unit,
   onNavigateToRecipeDetailScreen: (String) -> Unit,
-  viewModel: RecipeListViewModel,
+  viewModel: TemplateViewModel,
 ) {
   Log.d(TAG, "RecipeListScreen: ${viewModel}")
 
@@ -50,19 +49,7 @@ fun RecipeListScreen(
     dialogQueue = dialogQueue.queue.value,
   ) {
     Scaffold(
-      topBar = {
-        SearchAppBar(
-          query = query,
-          onQueryChanged = viewModel::onQueryChanged,
-          onExecuteSearch = {
-            viewModel.onTriggerEvent(RecipeListEvent.NewSearchEvent)
-          },
-          categories = getAllFoodCategories(),
-          selectedCategory = selectedCategory,
-          onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
-          onToggleTheme = { onToggleTheme() }
-        )
-      },
+
       scaffoldState = scaffoldState,
       snackbarHost = {
         scaffoldState.snackbarHostState
@@ -73,7 +60,7 @@ fun RecipeListScreen(
         recipes = recipes,
         onChangeScrollPosition = viewModel::onChangeRecipeScrollPosition,
         page = page,
-        onTriggerNextPage = { viewModel.onTriggerEvent(RecipeListEvent.NextPageEvent) },
+        onTriggerNextPage = { viewModel.onTriggerEvent(TemplateEvent.NextPageEvent) },
         onNavigateToRecipeDetailScreen = onNavigateToRecipeDetailScreen
       )
     }

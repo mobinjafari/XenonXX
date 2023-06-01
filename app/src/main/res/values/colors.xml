@@ -25,7 +25,7 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="immersive_sys_ui">#33000000</color>
+    <color name="immersive_sys_ui">#76000000</color>
     <color name="nav_bar">@color/immersive_sys_ui</color>
     <color name="colorPrimaryDark">#8B2D26</color>
 </resources>
