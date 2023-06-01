@@ -1,105 +1,62 @@
 package org.lotka.bp.presentation
 
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.HiltViewModelFactory
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.*
-import androidx.navigation.navArgument
-import org.lotka.bp.datastore.SettingsDataStore
-import org.lotka.bp.presentation.navigation.Screen
-import org.lotka.bp.presentation.ui.recipe.RecipeDetailScreen
-import org.lotka.bp.presentation.ui.recipe.RecipeViewModel
-import org.lotka.bp.presentation.ui.recipe_list.RecipeListScreen
-import org.lotka.bp.presentation.ui.recipe_list.RecipeListViewModel
-import org.lotka.bp.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.lotka.bp.datastore.SettingsDataStore
+import org.lotka.bp.presentation.util.ConnectivityManager
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(){
+class MainActivity : ComponentActivity() {
 
-  @Inject
-  lateinit var connectivityManager: ConnectivityManager
+    @Inject
+    lateinit var connectivityManager: ConnectivityManager
 
-  @Inject
-  lateinit var settingsDataStore: SettingsDataStore
+    @Inject
+    lateinit var settingsDataStore: SettingsDataStore
 
-  override fun onStart() {
-    super.onStart()
-    connectivityManager.registerConnectionObserver(this)
-  }
-  override fun onDestroy() {
-    super.onDestroy()
-    connectivityManager.unregisterConnectionObserver(this)
-  }
+    override fun onStart() {
+        super.onStart()
+        connectivityManager.registerConnectionObserver(this)
+    }
 
-  @SuppressLint("SuspiciousIndentation")
-  @ExperimentalComposeUiApi
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterConnectionObserver(this)
+    }
 
-    // This app draws behind the system bars, so we want to handle fitting system windows
-    WindowCompat.setDecorFitsSystemWindows(window, false)
+    @SuppressLint("SuspiciousIndentation")
+    @ExperimentalComposeUiApi
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    setContent {
-      val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = Screen.RecipeList.route) {
+        // This app draws behind the system bars, so we want to handle fitting system windows
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-          composable(route = Screen.RecipeList.route) { navBackStackEntry ->
-            val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-            val viewModel: RecipeListViewModel = viewModel(this@MainActivity  , "RecipeListViewModel", factory)
-            RecipeListScreen(
-              isDarkTheme = settingsDataStore.isDark.value,
-              isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
-              onToggleTheme = settingsDataStore::toggleTheme,
-              onNavigateToRecipeDetailScreen = navController::navigate,
-              viewModel = viewModel,
+        setContent {
+
+            ModernApp(
+                activity = this@MainActivity,
+                connectivityManager = connectivityManager,
+                settingsDataStore = settingsDataStore
             )
-          }
-          composable(
-            route = Screen.RecipeDetail.route + "/{recipeId}",
-            arguments = listOf(navArgument("recipeId") {
-              type = NavType.IntType
-            })
-          ) { navBackStackEntry ->
-            val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-            val viewModel: RecipeViewModel = viewModel(this@MainActivity ,"RecipeDetailViewModel", factory)
-            RecipeDetailScreen(
-              isDarkTheme = settingsDataStore.isDark.value,
-              isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
-              recipeId = navBackStackEntry.arguments?.getInt("recipeId"),
-              viewModel = viewModel,
-            )
-          }
         }
 
     }
-  }
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

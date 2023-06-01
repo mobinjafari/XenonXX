@@ -1,7 +1,7 @@
 package org.lotka.bp.presentation.ui.recipe_list
 
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.*
 
+import org.lotka.bp.presentation.ui.recipe_list.FoodCategory.*
 
 enum class FoodCategory(val value: String){
     ERROR("error"),

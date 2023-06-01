@@ -21,6 +21,11 @@ val RedErrorLight = Color(0xFFEF5350)
 
 
 
+var navigationDarkThemeBackGroundColor =  Color(0xFF181818)
+var navigationDarkThemeItemColor = Color.White
+
+var navigationLightThemeBackGroundColor = Color.White
+var navigationLightThemeItemColor = Color(0xFF181818)
 
 
 
