@@ -22,7 +22,7 @@ val RedErrorLight = Color(0xFFEF5350)
 
 
 val navBackGround =  Color(0xFF181818)
-
+val navItemColor = Color.White
 
 
 
