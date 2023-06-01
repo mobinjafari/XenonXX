@@ -1,6 +1,7 @@
 package org.lotka.bp.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,25 +12,29 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.lotka.bp.R
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    paddingValues: PaddingValues,
+    onToggleTheme: () -> Unit,
+    isDarkTheme: Boolean,) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF000000))
+            .background(if(isDarkTheme) Color(0xFF000000) else Color(0xFFffffff))
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = "Home View",
+            text = "Home",
             fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color = if(isDarkTheme) Color(0xFFffffff) else Color(0xFF000000),
             textAlign = TextAlign.Center,
-            fontSize = 25.sp
+            fontSize = 29.sp,
+            modifier = Modifier.clickable {
+                onToggleTheme()
+            }
         )
     }
 }
@@ -53,11 +58,6 @@ fun MusicScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MusicScreenPreview() {
-    MusicScreen()
-}
 
 @Composable
 fun MoviesScreen() {

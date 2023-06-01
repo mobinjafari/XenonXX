@@ -1,4 +1,4 @@
-package org.lotka.bp.presentation
+package org.lotka.bp.presentation.navigation
 
 
 import org.lotka.bp.R
@@ -15,4 +15,5 @@ sealed class NavigationItem(var route: String, var icon: Int, var title: String)
 
 
     // listing
+
 }

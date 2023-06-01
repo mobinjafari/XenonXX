@@ -1,6 +1,6 @@
-package org.lotka.bp.presentation.ui.recipe_list
+package org.lotka.bp.presentation.ui.home
 
-import org.lotka.bp.presentation.ui.home.RecipeListEvent
+import org.lotka.bp.presentation.ui.recipe_list.RecipeListEvent
 
 sealed class RecipeListEvent {
 

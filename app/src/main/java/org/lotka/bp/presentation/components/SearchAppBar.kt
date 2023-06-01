@@ -17,26 +17,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import org.lotka.bp.presentation.ui.recipe_list.FoodCategory
+import org.lotka.bp.presentation.ui.home.FoodCategory
 
 
 @ExperimentalComposeUiApi
 @Composable
 fun SearchAppBar(
-  query: String,
-  onQueryChanged: (String) -> Unit,
-  onExecuteSearch: () -> Unit,
-  categories: List<FoodCategory>,
-  selectedCategory: FoodCategory?,
-  onSelectedCategoryChanged: (String) -> Unit,
-  onToggleTheme: () -> Unit,
+    query: String,
+    onQueryChanged: (String) -> Unit,
+    onExecuteSearch: () -> Unit,
+    categories: List<FoodCategory>,
+    selectedCategory: FoodCategory?,
+    onSelectedCategoryChanged: (String) -> Unit,
+    onToggleTheme: () -> Unit,
 ) {
  // val focusManager = LocalFocusManager.current
   val keyboardController = LocalSoftwareKeyboardController.current
