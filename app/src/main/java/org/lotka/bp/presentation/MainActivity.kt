@@ -7,7 +7,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -91,7 +93,7 @@ class MainActivity : ComponentActivity() {
                             composable(route = NavigationItem.Tabs.route) {
                                 MoviesScreen()
                             }
-                            composable(route = NavigationItem.Apps.route) {
+                            composable(route = NavigationItem.Profile.route) {
                                 BooksScreen()
                             }
                             composable(route = NavigationItem.Profile.route) {
@@ -147,10 +149,12 @@ class MainActivity : ComponentActivity() {
 fun BottomNavigationBar(navController: NavController) {
     val navItemFontSize = 10.sp
     val navItemColor = navItemColor
+    val navIconSize = 29.dp
     val navItemFontStyle = MaterialTheme.typography.h3.copy(fontSize = navItemFontSize)
 
 
     BottomNavigation(
+        Modifier.height(69.dp),
         backgroundColor = navBackGround,
         //      contentColor = Color.White
     ) {
@@ -164,7 +168,8 @@ fun BottomNavigationBar(navController: NavController) {
             icon = {
                 Icon(
                     painterResource(id = NavigationItem.Home.icon),
-                    contentDescription = NavigationItem.Home.title
+                    contentDescription = NavigationItem.Home.title,
+                    Modifier.size(navIconSize)
                 )
             },
 
@@ -203,7 +208,8 @@ fun BottomNavigationBar(navController: NavController) {
             icon = {
                 Icon(
                     painterResource(id = NavigationItem.News.icon),
-                    contentDescription = NavigationItem.Home.title
+                    contentDescription = NavigationItem.Home.title,
+                    Modifier.size(navIconSize)
                 )
             },
             label = {
@@ -244,7 +250,7 @@ fun BottomNavigationBar(navController: NavController) {
                 Image(
                     painterResource(id = NavigationItem.List.icon ),
                     contentDescription = NavigationItem.List.title,
-                    Modifier.padding(vertical = 8.dp)
+                    Modifier.padding(vertical = 6.dp)
                 )
             },
 
@@ -274,7 +280,8 @@ fun BottomNavigationBar(navController: NavController) {
             icon = {
                 Icon(
                     painterResource(id = NavigationItem.Tabs.icon),
-                    contentDescription = NavigationItem.Tabs.title
+                    contentDescription = NavigationItem.Tabs.title,
+                    Modifier.size(navIconSize)
                 )
             },
             label = {
@@ -309,17 +316,18 @@ fun BottomNavigationBar(navController: NavController) {
 
 
 
-
+        // Profile
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painterResource(id = NavigationItem.Apps.icon),
-                    contentDescription = NavigationItem.Apps.title
+                    painterResource(id = NavigationItem.Profile.icon),
+                    contentDescription = NavigationItem.Profile.title,
+                    Modifier.size(navIconSize)
                 )
             },
             label = {
                 Text(
-                    text = NavigationItem.Apps.title,
+                    text = NavigationItem.Profile.title,
                     color = navItemColor,
                     style = navItemFontStyle
                 )
@@ -327,9 +335,9 @@ fun BottomNavigationBar(navController: NavController) {
             selectedContentColor = navItemColor,
             unselectedContentColor = navItemColor,
             alwaysShowLabel = true,
-            selected = currentRoute == NavigationItem.Apps.route,
+            selected = currentRoute == NavigationItem.Profile.route,
             onClick = {
-                navController.navigate(NavigationItem.Apps.route) {
+                navController.navigate(NavigationItem.Profile.route) {
                     // Pop up to the start destination of the graph to
                     // avoid building up a large stack of destinations
                     // on the back stack as users select items
