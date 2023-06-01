@@ -20,7 +20,7 @@ fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.colorPrimaryDark))
+            .background(Color(0xFF000000))
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
@@ -32,12 +32,6 @@ fun HomeScreen() {
             fontSize = 25.sp
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen()
 }
 
 @Composable

@@ -3,10 +3,10 @@ package org.lotka.bp.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -42,8 +42,10 @@ import org.lotka.bp.presentation.ui.recipe_list.RecipeListViewModel
 import org.lotka.bp.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.lotka.bp.presentation.theme.navBackGround
-import org.lotka.bp.presentation.theme.navItemColor
+import org.lotka.bp.presentation.theme.navigationDarkThemeBackGroundColor
+import org.lotka.bp.presentation.theme.navigationDarkThemeItemColor
+import org.lotka.bp.presentation.theme.navigationLightThemeBackGroundColor
+import org.lotka.bp.presentation.theme.navigationLightThemeItemColor
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -80,9 +82,13 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             Scaffold(
-                bottomBar = { BottomNavigationBar(navController) },
+                bottomBar = { BottomNavigationBar(
+                    navController =navController ,
+                    isDarkTheme = settingsDataStore.isDark.value,
+                    onToggleTheme = settingsDataStore::toggleTheme
+                ) },
                 content = { padding ->
-                    Box(modifier = Modifier.padding(padding)) {
+                    Log.d("lged", "bottom: ${padding.calculateBottomPadding()}")
                         NavHost(navController, startDestination = NavigationItem.List.route) {
                             composable(route = NavigationItem.Home.route) {
                                 HomeScreen()
@@ -133,7 +139,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                    }
+
                 },
             )
 
@@ -146,17 +152,29 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(
+    navController: NavController,
+    isDarkTheme:  Boolean,
+    onToggleTheme: () -> Unit
+) {
+    val navBackGroundColor: Color
+    val navItemColor: Color
+
+    if (isDarkTheme) {
+        navBackGroundColor = navigationDarkThemeBackGroundColor
+        navItemColor = navigationDarkThemeItemColor
+    } else {
+        navBackGroundColor = navigationLightThemeBackGroundColor
+        navItemColor = navigationLightThemeItemColor
+    }
     val navItemFontSize = 10.sp
-    val navItemColor = navItemColor
     val navIconSize = 29.dp
     val navItemFontStyle = MaterialTheme.typography.h3.copy(fontSize = navItemFontSize)
 
 
     BottomNavigation(
         Modifier.height(69.dp),
-        backgroundColor = navBackGround,
-        //      contentColor = Color.White
+        backgroundColor = navBackGroundColor,
     ) {
 
 
@@ -250,7 +268,7 @@ fun BottomNavigationBar(navController: NavController) {
                 Image(
                     painterResource(id = NavigationItem.List.icon ),
                     contentDescription = NavigationItem.List.title,
-                    Modifier.padding(vertical = 6.dp)
+                    Modifier.padding(vertical = 8.dp)
                 )
             },
 
