@@ -1,18 +1,16 @@
-package org.lotka.bp.presentation.ui.recipe_list
+package org.lotka.bp.presentation.ui.explore
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import org.lotka.bp.presentation.components.RecipeList
-import org.lotka.bp.presentation.components.SearchAppBar
-import org.lotka.bp.presentation.theme.AppTheme
-import org.lotka.bp.util.TAG
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.lotka.bp.presentation.components.RecipeList
+import org.lotka.bp.presentation.theme.AppTheme
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -20,15 +18,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @Composable
-fun RecipeListScreen(
+fun ExploreScreen(
   isDarkTheme: Boolean,
   isNetworkAvailable: Boolean,
   onToggleTheme: () -> Unit,
   onNavigateToRecipeDetailScreen: (String) -> Unit,
-  viewModel: RecipeListViewModel,
+  viewModel: ExploreViewModel,
   scaffoldPadding : PaddingValues
 ) {
-  Log.d(TAG, "RecipeListScreen: ${viewModel}")
+
 
   val recipes = viewModel.recipes.value
 
@@ -52,32 +50,13 @@ fun RecipeListScreen(
     dialogQueue = dialogQueue.queue.value,
   ) {
     Scaffold(
-      topBar = {
-        SearchAppBar(
-          query = query,
-          onQueryChanged = viewModel::onQueryChanged,
-          onExecuteSearch = {
-            viewModel.onTriggerEvent(RecipeListEvent.NewSearchEvent)
-          },
-          categories = getAllFoodCategories(),
-          selectedCategory = selectedCategory,
-          onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
-          onToggleTheme = { onToggleTheme() }
-        )
-      },
+
       scaffoldState = scaffoldState,
       snackbarHost = {
         scaffoldState.snackbarHostState
       },
     ) {
-      RecipeList(
-        loading = loading,
-        recipes = recipes,
-        onChangeScrollPosition = viewModel::onChangeRecipeScrollPosition,
-        page = page,
-        onTriggerNextPage = { viewModel.onTriggerEvent(RecipeListEvent.NextPageEvent) },
-        onNavigateToRecipeDetailScreen = onNavigateToRecipeDetailScreen
-      )
+      Text(text = "Explore")
     }
   }
 }

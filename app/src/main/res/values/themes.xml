@@ -21,6 +21,8 @@
         <item name="android:colorAccent">#ff00ff</item>
         <item name="android:statusBarColor">@color/immersive_sys_ui</item>
         <item name="android:navigationBarColor">@color/nav_bar</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="Theme.Material.DayNight.NoActionBar" parent="@android:style/Theme.Material.Light.NoActionBar" />
