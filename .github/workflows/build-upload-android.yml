@@ -18,7 +18,7 @@ jobs:
       - name: Set up Java environment
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '11'
 
       - name: Build APK
         run: ./gradlew assembleDebug
@@ -58,7 +58,20 @@ jobs:
           VERSION_NAME=${{ steps.determine_version.outputs.version_name }}
           mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/app-$VERSION_NAME-$VERSION_CODE.apk
 
-      - name: Upload build artifact
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.determine_version.outputs.version_name }}
+          release_name: Release ${{ steps.determine_version.outputs.version_name }}
+          body: |
+            Release ${{ steps.determine_version.outputs.version_name }}
+          draft: false
+          prerelease: false
+
+      - name: Upload release artifact
         uses: actions/upload-artifact@v2
         with:
           name: app-debug
