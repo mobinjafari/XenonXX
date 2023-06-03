@@ -100,7 +100,7 @@ fun ModernApp(
         },
         content = { scaffoldPadding ->
 
-            NavHost(navController, startDestination = NavigationItem.Welcome.route) {
+            NavHost(navController, startDestination = NavigationItem.Dashboard.route) {
 
                 //welcome
                 composable(
