@@ -40,12 +40,16 @@ jobs:
               echo "::set-output name=version_code::${{ steps.get_latest_tag.outputs.LATEST_TAG }}"
               echo "::set-output name=version_name::${{ steps.get_latest_tag.outputs.LATEST_TAG }}"
             else
-              echo "::set-output name=version_code::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
-              echo "::set-output name=version_name::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
+              VERSION_CODE=$((LATEST_TAG + 1))
+              VERSION_NAME=$((LATEST_TAG + 1))
+              echo "::set-output name=version_code::$VERSION_CODE"
+              echo "::set-output name=version_name::$VERSION_NAME"
             fi
           else
-            echo "::set-output name=version_code::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
-            echo "::set-output name=version_name::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
+            VERSION_CODE=$((LATEST_TAG + 1))
+            VERSION_NAME=$((LATEST_TAG + 1))
+            echo "::set-output name=version_code::$VERSION_CODE"
+            echo "::set-output name=version_name::$VERSION_NAME"
           fi
 
       - name: Rename APK with version
