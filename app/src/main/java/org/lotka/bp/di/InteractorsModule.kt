@@ -1,6 +1,6 @@
 package org.lotka.bp.di
 
-import com.codingwithmitch.food2fork.network.RecipeService
+import org.lotka.bp.network.RecipeService
 import org.lotka.bp.cache.RecipeDao
 import org.lotka.bp.cache.model.RecipeEntityMapper
 import org.lotka.bp.interactors.recipe.GetRecipe
@@ -20,10 +20,10 @@ object InteractorsModule {
   @ViewModelScoped
   @Provides
   fun provideSearchRecipe(
-    recipeService: RecipeService,
-    recipeDao: RecipeDao,
-    recipeEntityMapper: RecipeEntityMapper,
-    recipeDtoMapper: RecipeDtoMapper,
+      recipeService: RecipeService,
+      recipeDao: RecipeDao,
+      recipeEntityMapper: RecipeEntityMapper,
+      recipeDtoMapper: RecipeDtoMapper,
   ): SearchRecipes {
     return SearchRecipes(
       recipeService = recipeService,
@@ -48,10 +48,10 @@ object InteractorsModule {
   @ViewModelScoped
   @Provides
   fun provideGetRecipe(
-    recipeDao: RecipeDao,
-    recipeEntityMapper: RecipeEntityMapper,
-    recipeService: RecipeService,
-    recipeDtoMapper: RecipeDtoMapper,
+      recipeDao: RecipeDao,
+      recipeEntityMapper: RecipeEntityMapper,
+      recipeService: RecipeService,
+      recipeDtoMapper: RecipeDtoMapper,
   ): GetRecipe {
     return GetRecipe(
       recipeDao = recipeDao,

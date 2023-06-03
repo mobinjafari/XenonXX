@@ -1,6 +1,6 @@
 package org.lotka.bp.interactors.recipe
 
-import com.codingwithmitch.food2fork.network.RecipeService
+import org.lotka.bp.network.RecipeService
 import org.lotka.bp.cache.RecipeDao
 import org.lotka.bp.cache.model.RecipeEntityMapper
 import org.lotka.bp.domain.data.DataState

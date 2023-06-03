@@ -1,6 +1,6 @@
 package org.lotka.bp.interactors.recipe_list
 
-import com.codingwithmitch.food2fork.network.RecipeService
+import org.lotka.bp.network.RecipeService
 import org.lotka.bp.cache.RecipeDao
 import org.lotka.bp.cache.model.RecipeEntityMapper
 import org.lotka.bp.domain.data.DataState
@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.flow
 import org.lotka.bp.util.RECIPE_PAGINATION_PAGE_SIZE
 
 class SearchRecipes(
-  private val recipeDao: RecipeDao,
-  private val recipeService: RecipeService,
-  private val entityMapper: RecipeEntityMapper,
-  private val dtoMapper: RecipeDtoMapper,
+    private val recipeDao: RecipeDao,
+    private val recipeService: RecipeService,
+    private val entityMapper: RecipeEntityMapper,
+    private val dtoMapper: RecipeDtoMapper,
 ) {
 
   fun execute(

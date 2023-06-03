@@ -76,7 +76,9 @@ fun PhotoQuestion(
         contract = ActivityResultContracts.TakePicture(),
         onResult = { success ->
             if (success) {
-                onPhotoTaken(newImageUri!!)
+                newImageUri?.let { uri ->
+                    onPhotoTaken(uri)
+                }
             }
         }
     )
