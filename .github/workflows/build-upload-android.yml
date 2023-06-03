@@ -1,63 +1,61 @@
 name: Android Build & Deploy
 
 on:
-  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v2
 
-      - name: Set up ruby env
-        uses: ruby/setup-ruby@v1
+      - name: Set up Java environment
+        uses: actions/setup-java@v2
         with:
-          ruby-version: 2.7.2
-          bundler-cache: true
+          java-version: '11'
 
-      - name: Run tests
-        run: bundle exec fastlane android test
+      - name: Build APK
+        run: ./gradlew assembleDebug
 
-      - name: Decode Service Account Key JSON File
-        uses: timheuer/base64-to-file@v1
-        id: service_account_json_file
-        with:
-          fileName: "serviceAccount.json"
-          encodedString: ${{ secrets.GPLAY_SERVICE_ACCOUNT_KEY_JSON }}
-
-      - name: Decode Keystore File
-        uses: timheuer/base64-to-file@v1
-        id: android_keystore
-        with:
-          fileName: "android_keystore.keystore"
-          encodedString: ${{ secrets.KEYSTORE_FILE }}
-
-      - name: Define version code with offset
-        env:
-          RUN_NUMBER: ${{ github.run_number }}
-          INITIAL_VERSION_CODE: 73
+      - name: Get latest version tag
+        id: get_latest_tag
         run: |
-          VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))
-          echo "version_code=$VERSION_CODE" >> $GITHUB_ENV
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
-      - name: Update version code
-        uses: chkfung/android-version-actions@v1.1
-        with:
-          gradlePath: android/app/build.gradle
-          versionCode: ${{ env.version_code }}
+      - name: Determine version code and name
+        id: determine_version
+        run: |
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
+            PR_NUMBER=$(jq -r '.number' $GITHUB_EVENT_PATH)
+            PR_STATE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | jq -r '.state')
+            if [[ $PR_STATE == 'closed' ]]; then
+              echo "::set-output name=version_code::${{ steps.get_latest_tag.outputs.LATEST_TAG }}"
+              echo "::set-output name=version_name::${{ steps.get_latest_tag.outputs.LATEST_TAG }}"
+            else
+              echo "::set-output name=version_code::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
+              echo "::set-output name=version_name::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
+            fi
+          else
+            echo "::set-output name=version_code::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
+            echo "::set-output name=version_name::${{ steps.get_latest_tag.outputs.LATEST_TAG + 1 }}"
+          fi
 
-      - name: Build & deploy Android release
-        run: bundle exec fastlane android deploy
-        env:
-          KEYSTORE_FILE: ${{ steps.android_keystore.outputs.filePath }}
-          STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS}}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          ANDROID_JSON_KEY_FILE: ${{ steps.service_account_json_file.outputs.filePath }}
+      - name: Rename APK with version
+        run: |
+          VERSION_CODE=${{ steps.determine_version.outputs.version_code }}
+          VERSION_NAME=${{ steps.determine_version.outputs.version_name }}
+          mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/app-$VERSION_NAME-$VERSION_CODE.apk
 
-      - name: Upload build artifacts
+      - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: assets
-          path: |
-            ${{ github.workspace }}/app/build/outputs/bundle/release
+          name: app-debug
+          path: app/build/outputs/apk/debug/
