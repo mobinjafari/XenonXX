@@ -6,7 +6,12 @@ import org.lotka.bp.R
 
 sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
 
+    object Welcome : NavigationItem("welcome", R.drawable.ic_home2, "Welcome")
+    object Survey : NavigationItem("survey", R.drawable.ic_home2, "Survey")
 
+    object SignIn : NavigationItem("signin/{email}", R.drawable.ic_home2, "SignIn")
+
+    object SignUp : NavigationItem("signup/{email}", R.drawable.ic_home2, "SignUp")
     //bottom nav
 
     object Dashboard : NavigationItem("dashboard", R.drawable.ic_home2, "Dashboard")

@@ -1,8 +1,8 @@
 package org.lotka.bp.presentation
 
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -53,8 +53,10 @@ import org.lotka.bp.presentation.ui.recipe.RecipeDetailScreen
 import org.lotka.bp.presentation.ui.recipe.RecipeViewModel
 import org.lotka.bp.presentation.ui.recipe_list.RecipeListScreen
 import org.lotka.bp.presentation.ui.recipe_list.RecipeListViewModel
-import org.lotka.bp.presentation.ui.template.TemplateScreen
-import org.lotka.bp.presentation.ui.template.TemplateViewModel
+import org.lotka.bp.presentation.ui.signinsignup.SignInRoute
+import org.lotka.bp.presentation.ui.signinsignup.SignUpRoute
+import org.lotka.bp.presentation.ui.signinsignup.WelcomeRoute
+import org.lotka.bp.presentation.ui.survey.SurveyRoute
 import org.lotka.bp.presentation.util.ConnectivityManager
 
 @OptIn(
@@ -79,7 +81,7 @@ fun ModernApp(
         ViewCompat.getWindowInsetsController(activity.window.decorView)?.isAppearanceLightNavigationBars = true
     }
 
-
+    var fr = activity.fragmentManager
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -98,7 +100,66 @@ fun ModernApp(
         },
         content = { scaffoldPadding ->
 
-            NavHost(navController, startDestination = NavigationItem.List.route) {
+            NavHost(navController, startDestination = NavigationItem.Welcome.route) {
+
+                //welcome
+                composable(
+                    route = NavigationItem.Welcome.route) {
+                    WelcomeRoute(
+                        onNavigateToSignIn = {
+                            navController.navigate("signin/$it")
+                        },
+                        onNavigateToSignUp = {
+                            navController.navigate("signup/$it")
+                        },
+                        onSignInAsGuest = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                    )
+                }
+
+
+                //survey
+                composable(
+                    route = NavigationItem.Survey.route
+                ) { navBackStackEntry ->
+                    SurveyRoute(
+                        onNavUp = {},
+                        onSurveyComplete = {navController.navigate(NavigationItem.Dashboard.route)},
+                        fragmentManager = (activity as AppCompatActivity).supportFragmentManager
+                    )
+                }
+
+
+                //signin
+                composable(NavigationItem.SignIn.route) {
+                    val startingEmail = it.arguments?.getString("email")
+                    SignInRoute(
+                        email = startingEmail,
+                        onSignInSubmitted = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onSignInAsGuest = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onNavUp = navController::navigateUp,
+                    )
+                }
+
+                //signup
+                composable(NavigationItem.SignUp.route) {
+                    val startingEmail = it.arguments?.getString("email")
+                    SignUpRoute(
+                        email = startingEmail,
+                        onSignUpSubmitted = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onSignInAsGuest = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onNavUp = navController::navigateUp,
+                    )
+                }
 
                 //dashboard
                 composable(

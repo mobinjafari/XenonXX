@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.view.ViewCompat
@@ -22,7 +23,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity()  {
 
     @Inject
     lateinit var connectivityManager: ConnectivityManager
