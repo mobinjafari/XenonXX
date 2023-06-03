@@ -33,7 +33,8 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Owl.Custom"
-        android:name=".presentation.BaseApplication">
+        android:name=".presentation.BaseApplication"
+        tools:targetApi="m">
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"

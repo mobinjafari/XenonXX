@@ -1,4 +1,4 @@
-package com.codingwithmitch.food2fork.network
+package org.lotka.bp.network
 
 import org.lotka.bp.network.model.RecipeDto
 import org.lotka.bp.network.response.RecipeSearchResponse
