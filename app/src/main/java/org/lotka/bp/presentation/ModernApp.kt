@@ -1,5 +1,7 @@
 package org.lotka.bp.presentation
 
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,10 +18,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.ViewCompat
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -29,17 +33,30 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.owl.insights.InsightsScreen
+import com.example.owl.insights.InsightsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.lotka.bp.datastore.SettingsDataStore
+import org.lotka.bp.presentation.navigation.NavigationItem
 import org.lotka.bp.presentation.navigation.Screen
 import org.lotka.bp.presentation.theme.navigationDarkThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationDarkThemeItemColor
 import org.lotka.bp.presentation.theme.navigationLightThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationLightThemeItemColor
+import org.lotka.bp.presentation.ui.dashboard.DashboardScreen
+import org.lotka.bp.presentation.ui.dashboard.DashboardViewModel
+import org.lotka.bp.presentation.ui.explore.ExploreScreen
+import org.lotka.bp.presentation.ui.explore.ExploreViewModel
+import org.lotka.bp.presentation.ui.profile.ProfileScreen
+import org.lotka.bp.presentation.ui.profile.ProfileViewModel
 import org.lotka.bp.presentation.ui.recipe.RecipeDetailScreen
 import org.lotka.bp.presentation.ui.recipe.RecipeViewModel
 import org.lotka.bp.presentation.ui.recipe_list.RecipeListScreen
 import org.lotka.bp.presentation.ui.recipe_list.RecipeListViewModel
+import org.lotka.bp.presentation.ui.signinsignup.SignInRoute
+import org.lotka.bp.presentation.ui.signinsignup.SignUpRoute
+import org.lotka.bp.presentation.ui.signinsignup.WelcomeRoute
+import org.lotka.bp.presentation.ui.survey.SurveyRoute
 import org.lotka.bp.presentation.util.ConnectivityManager
 
 @OptIn(
@@ -55,10 +72,19 @@ fun ModernApp(
     settingsDataStore: SettingsDataStore
 ) {
 
+    activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    if (settingsDataStore.isDark.value){
+        activity.window.navigationBarColor = navigationDarkThemeBackGroundColor.toArgb()
+        ViewCompat.getWindowInsetsController(activity.window.decorView)?.isAppearanceLightNavigationBars = false
+    }else{
+        activity.window.navigationBarColor = navigationLightThemeBackGroundColor.toArgb()
+        ViewCompat.getWindowInsetsController(activity.window.decorView)?.isAppearanceLightNavigationBars = true
+    }
+
+    var fr = activity.fragmentManager
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-
 
     Scaffold(
         bottomBar = {
@@ -67,34 +93,113 @@ fun ModernApp(
                     navController = navController,
                     isDarkTheme = settingsDataStore.isDark.value,
                     onToggleTheme = settingsDataStore::toggleTheme,
-                    currentRoute = currentRoute
+                    currentRoute = currentRoute ,
                 )
             }
 
         },
         content = { scaffoldPadding ->
 
-            NavHost(navController, startDestination = NavigationItem.List.route) {
-                composable(route = NavigationItem.Home.route) {
-                    HomeScreen(
-                        paddingValues = scaffoldPadding,
-                        onToggleTheme = settingsDataStore::toggleTheme,
-                        isDarkTheme = settingsDataStore.isDark.value,
+            NavHost(navController, startDestination = NavigationItem.Welcome.route) {
+
+                //welcome
+                composable(
+                    route = NavigationItem.Welcome.route) {
+                    WelcomeRoute(
+                        onNavigateToSignIn = {
+                            navController.navigate("signin/$it")
+                        },
+                        onNavigateToSignUp = {
+                            navController.navigate("signup/$it")
+                        },
+                        onSignInAsGuest = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
                     )
                 }
-                composable(route = NavigationItem.Insights.route) {
-                    MusicScreen()
-                }
-                composable(route = NavigationItem.Explore.route) {
-                    MoviesScreen()
-                }
-                composable(route = NavigationItem.Profile.route) {
-                    BooksScreen()
-                }
-                composable(route = NavigationItem.Profile.route) {
-                    ProfileScreen()
+
+
+                //survey
+                composable(
+                    route = NavigationItem.Survey.route
+                ) { navBackStackEntry ->
+                    SurveyRoute(
+                        onNavUp = {},
+                        onSurveyComplete = {navController.navigate(NavigationItem.Dashboard.route)},
+                        fragmentManager = (activity as AppCompatActivity).supportFragmentManager
+                    )
                 }
 
+
+                //signin
+                composable(NavigationItem.SignIn.route) {
+                    val startingEmail = it.arguments?.getString("email")
+                    SignInRoute(
+                        email = startingEmail,
+                        onSignInSubmitted = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onSignInAsGuest = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onNavUp = navController::navigateUp,
+                    )
+                }
+
+                //signup
+                composable(NavigationItem.SignUp.route) {
+                    val startingEmail = it.arguments?.getString("email")
+                    SignUpRoute(
+                        email = startingEmail,
+                        onSignUpSubmitted = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onSignInAsGuest = {
+                            navController.navigate(NavigationItem.Survey.route)
+                        },
+                        onNavUp = navController::navigateUp,
+                    )
+                }
+
+                //dashboard
+                composable(
+                    route = NavigationItem.Dashboard.route
+                ) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: DashboardViewModel =
+                        viewModel(activity, "DashboardViewModel", factory)
+
+                    DashboardScreen(
+                        isDarkTheme = settingsDataStore.isDark.value,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        onToggleTheme = settingsDataStore::toggleTheme,
+                        onNavigateToRecipeDetailScreen = navController::navigate,
+                        viewModel = viewModel,
+                        scaffoldPadding= scaffoldPadding
+                    )
+                }
+
+                //insights
+                composable(
+                    route = NavigationItem.Insights.route
+                ) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: InsightsViewModel =
+                        viewModel(activity, "InsightsViewModel", factory)
+
+                    InsightsScreen(
+                        isDarkTheme = settingsDataStore.isDark.value,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        onToggleTheme = settingsDataStore::toggleTheme,
+                        onNavigateToRecipeDetailScreen = navController::navigate,
+                        viewModel = viewModel,
+                        scaffoldPadding=scaffoldPadding
+                    )
+                }
+
+
+
+                //list
                 composable(
                     route = NavigationItem.List.route
                 ) { navBackStackEntry ->
@@ -108,9 +213,9 @@ fun ModernApp(
                         onToggleTheme = settingsDataStore::toggleTheme,
                         onNavigateToRecipeDetailScreen = navController::navigate,
                         viewModel = viewModel,
+                        scaffoldPadding=scaffoldPadding
                     )
                 }
-
 
                 composable(
                     route = Screen.RecipeDetail.route + "/{recipeId}",
@@ -126,8 +231,55 @@ fun ModernApp(
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                         recipeId = navBackStackEntry.arguments?.getInt("recipeId"),
                         viewModel = viewModel,
+                        scaffoldPadding = scaffoldPadding
+
                     )
                 }
+
+
+
+
+
+
+
+                //Explore
+                composable(
+                    route = NavigationItem.Explore.route
+                ) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: ExploreViewModel =
+                        viewModel(activity, "ExploreViewModel", factory)
+                    ExploreScreen(
+                        isDarkTheme = settingsDataStore.isDark.value,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        onToggleTheme = settingsDataStore::toggleTheme,
+                        onNavigateToRecipeDetailScreen = navController::navigate,
+                        viewModel = viewModel,
+                        scaffoldPadding = scaffoldPadding
+                    )
+                }
+
+
+
+                //Profile
+                composable(
+                    route = NavigationItem.Profile.route
+                ) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: ProfileViewModel =
+                        viewModel(activity, "ProfileViewModel", factory)
+                    ProfileScreen(
+                        isDarkTheme = settingsDataStore.isDark.value,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        onToggleTheme = settingsDataStore::toggleTheme,
+                        onNavigateToRecipeDetailScreen = navController::navigate,
+                        viewModel = viewModel,
+                        scaffoldPadding= scaffoldPadding
+                    )
+                }
+
+
+
             }
 
         },
@@ -137,7 +289,7 @@ fun ModernApp(
 
 private fun shouldShowBottomBar(route: String?): Boolean {
     val bottomBarRoutes = setOf(
-        NavigationItem.Home.route,
+        NavigationItem.Dashboard.route,
         NavigationItem.Insights.route,
         NavigationItem.List.route,
         NavigationItem.Explore.route,
@@ -151,7 +303,8 @@ fun BottomNavigationBar(
     navController: NavController,
     isDarkTheme: Boolean,
     onToggleTheme: () -> Unit,
-    currentRoute: String?
+    currentRoute: String?,
+
 ) {
     val navBackGroundColor: Color
     val navItemColor: Color
@@ -175,26 +328,26 @@ fun BottomNavigationBar(
     ) {
 
 
-        //Home Screen
+        //Dashboard Screen
         BottomNavigationItem(icon = {
             Icon(
-                painterResource(id = NavigationItem.Home.icon),
-                contentDescription = NavigationItem.Home.title,
+                painterResource(id = NavigationItem.Dashboard.icon),
+                contentDescription = NavigationItem.Dashboard.title,
                 Modifier.size(navIconSize)
             )
         },
 
             label = {
                 Text(
-                    text = NavigationItem.Home.title, color = navItemColor, style = navItemFontStyle
+                    text = NavigationItem.Dashboard.title, color = navItemColor, style = navItemFontStyle
                 )
             },
             selectedContentColor = navItemColor,
             unselectedContentColor = navItemColor,
             alwaysShowLabel = true,
-            selected = currentRoute == NavigationItem.Home.route,
+            selected = currentRoute == NavigationItem.Dashboard.route,
             onClick = {
-                navController.navigate(NavigationItem.Home.route) {
+                navController.navigate(NavigationItem.Dashboard.route) {
                     // Pop up to the start destination of the graph to
                     // avoid building up a large stack of destinations
                     // on the back stack as users select items
@@ -211,11 +364,11 @@ fun BottomNavigationBar(
                 }
             })
 
-        //News
+        //Insights Screen
         BottomNavigationItem(icon = {
             Icon(
                 painterResource(id = NavigationItem.Insights.icon),
-                contentDescription = NavigationItem.Home.title,
+                contentDescription = NavigationItem.Insights.title,
                 Modifier.size(navIconSize)
             )
         },
@@ -282,7 +435,7 @@ fun BottomNavigationBar(
             )
 
 
-        //Tabs
+        //Explore Screen
         BottomNavigationItem(icon = {
             Icon(
                 painterResource(id = NavigationItem.Explore.icon),

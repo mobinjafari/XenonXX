@@ -1,6 +1,7 @@
 package org.lotka.bp.presentation.ui.recipe
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -24,6 +25,7 @@ fun RecipeDetailScreen(
   isNetworkAvailable: Boolean,
   recipeId: Int?,
   viewModel: RecipeViewModel,
+  scaffoldPadding : PaddingValues
 ){
   if (recipeId == null){
     TODO("Show Invalid Recipe")

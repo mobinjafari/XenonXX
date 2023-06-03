@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.lotka.bp.domain.model.Recipe
 import org.lotka.bp.presentation.navigation.Screen
-import org.lotka.bp.presentation.ui.recipe_list.PAGE_SIZE
+import org.lotka.bp.presentation.ui.template.PAGE_SIZE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalMaterialApi

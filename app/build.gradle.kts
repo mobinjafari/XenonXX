@@ -118,6 +118,19 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material.iconsExtended)
+
+
+
+    // Compose Accompanist
+    implementation(libs.accompanist.adaptive)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.flowlayout)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.accompanist.swiperefresh)
+    implementation(libs.accompanist.systemuicontroller)
+    //implementation(libs.accompanist.navanim)
+
+
     // Tooling
     debugImplementation(libs.androidx.compose.ui.tooling)
     // Instrumented tests
@@ -166,4 +179,7 @@ dependencies {
 
 
     implementation ("com.google.android.material:material:1.9.0")
+
+
+   // implementation ("androidx.compose.animation:animation:1.4.3")
 }

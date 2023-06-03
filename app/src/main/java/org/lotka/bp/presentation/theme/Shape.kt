@@ -9,3 +9,8 @@ val AppShapes = Shapes(
         medium = RoundedCornerShape(6.dp),
         large = RoundedCornerShape(8.dp)
 )
+
+val Shapes = androidx.compose.material3.Shapes(
+        extraSmall = RoundedCornerShape(4.dp),
+        small = RoundedCornerShape(12.dp),
+)

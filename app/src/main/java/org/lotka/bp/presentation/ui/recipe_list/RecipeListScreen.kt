@@ -2,6 +2,7 @@ package org.lotka.bp.presentation.ui.recipe_list
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -12,6 +13,7 @@ import org.lotka.bp.presentation.components.SearchAppBar
 import org.lotka.bp.presentation.theme.AppTheme
 import org.lotka.bp.util.TAG
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalComposeUiApi
@@ -24,6 +26,7 @@ fun RecipeListScreen(
   onToggleTheme: () -> Unit,
   onNavigateToRecipeDetailScreen: (String) -> Unit,
   viewModel: RecipeListViewModel,
+  scaffoldPadding : PaddingValues
 ) {
   Log.d(TAG, "RecipeListScreen: ${viewModel}")
 

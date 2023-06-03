@@ -2,6 +2,7 @@ package org.lotka.bp.presentation.ui.recipe_list
 
 
 
+
 sealed class RecipeListEvent {
 
     object NewSearchEvent : RecipeListEvent()
