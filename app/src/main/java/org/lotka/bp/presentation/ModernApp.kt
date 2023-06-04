@@ -44,7 +44,6 @@ import com.example.owl.insights.InsightsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.lotka.bp.datastore.SettingsDataStore
 import org.lotka.bp.presentation.navigation.NavigationItem
-import org.lotka.bp.presentation.navigation.Screen
 import org.lotka.bp.presentation.theme.navigationDarkThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationDarkThemeItemColor
 import org.lotka.bp.presentation.theme.navigationLightThemeBackGroundColor
@@ -229,7 +228,7 @@ fun ModernApp(
                 }
 
                 composable(
-                    route = Screen.RecipeDetail.route + "/{recipeId}",
+                    route = NavigationItem.RecipeDetail.route + "/{recipeId}",
                     arguments = listOf(navArgument("recipeId") {
                         type = NavType.IntType
                     })
