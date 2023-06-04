@@ -95,7 +95,7 @@ enum class SplashState { Shown, Completed }
 
 
 
-@VisibleForTesting
+
 @Composable
 fun MainScreen(
     widthSize: WindowWidthSizeClass,
@@ -160,13 +160,7 @@ private fun MainContent(
 
     Column(modifier = modifier) {
         Spacer(Modifier.padding(top = topPadding))
-        CraneHome(
-            widthSize = widthSize,
-            modifier = modifier,
-            onExploreItemClicked = onExploreItemClicked,
-            onDateSelectionClicked = onDateSelectionClicked,
-            viewModel = viewModel
-        )
+
     }
 }
 

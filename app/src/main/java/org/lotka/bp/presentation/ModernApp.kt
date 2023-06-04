@@ -1,6 +1,8 @@
 package org.lotka.bp.presentation
 
+import android.os.Build
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
@@ -17,6 +19,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.samples.crane.home.CraneHome
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -62,6 +65,7 @@ import org.lotka.bp.presentation.ui.signinsignup.WelcomeRoute
 import org.lotka.bp.presentation.ui.survey.SurveyRoute
 import org.lotka.bp.presentation.util.ConnectivityManager
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(
     ExperimentalMaterialApi::class,
     ExperimentalCoroutinesApi::class,
@@ -288,14 +292,13 @@ fun ModernApp(
 
                 composable(NavigationItem.Dashboard.route) {
                     val mainViewModel = hiltViewModel<MainViewModel>()
-                    MainScreen(
+                    CraneHome(
                         widthSize = widthSizeClass,
-                        onExploreItemClicked = {},
-                        onDateSelectionClicked = {
-                            navController.navigate(NavigationItem.Calendar.route)
-                        },
-                        mainViewModel = mainViewModel
+                        onExploreItemClicked = {  },
+                        onDateSelectionClicked = {},
+                        viewModel = mainViewModel
                     )
+
                 }
 
 
