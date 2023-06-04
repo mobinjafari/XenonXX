@@ -13,6 +13,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.ViewCompat
 import androidx.hilt.navigation.HiltViewModelFactory
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -62,7 +65,7 @@ import org.lotka.bp.presentation.util.ConnectivityManager
 @OptIn(
     ExperimentalMaterialApi::class,
     ExperimentalCoroutinesApi::class,
-    ExperimentalComposeUiApi::class
+    ExperimentalComposeUiApi::class, ExperimentalMaterial3WindowSizeClassApi::class
 )
 
 @Composable
@@ -71,6 +74,10 @@ fun ModernApp(
     connectivityManager: ConnectivityManager,
     settingsDataStore: SettingsDataStore
 ) {
+
+    val widthSizeClass = calculateWindowSizeClass(activity).widthSizeClass
+
+    //todo use compose new method to set bottom bar color
 
     activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     if (settingsDataStore.isDark.value){
@@ -81,10 +88,10 @@ fun ModernApp(
         ViewCompat.getWindowInsetsController(activity.window.decorView)?.isAppearanceLightNavigationBars = true
     }
 
-    var fr = activity.fragmentManager
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
 
     Scaffold(
         bottomBar = {
@@ -100,7 +107,7 @@ fun ModernApp(
         },
         content = { scaffoldPadding ->
 
-            NavHost(navController, startDestination = NavigationItem.Welcome.route) {
+            NavHost(navController, startDestination = NavigationItem.Dashboard.route) {
 
                 //welcome
                 composable(
@@ -275,6 +282,19 @@ fun ModernApp(
                         onNavigateToRecipeDetailScreen = navController::navigate,
                         viewModel = viewModel,
                         scaffoldPadding= scaffoldPadding
+                    )
+                }
+
+
+                composable(NavigationItem.Dashboard.route) {
+                    val mainViewModel = hiltViewModel<MainViewModel>()
+                    MainScreen(
+                        widthSize = widthSizeClass,
+                        onExploreItemClicked = {},
+                        onDateSelectionClicked = {
+                            navController.navigate(NavigationItem.Calendar.route)
+                        },
+                        mainViewModel = mainViewModel
                     )
                 }
 

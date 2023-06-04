@@ -19,7 +19,7 @@ hilt = "2.46"
 junit = "4.13.2"
 kotlin = "1.8.21"
 ksp = "1.8.21-1.0.11"
-
+androidx-window = "1.1.0-rc01"
 
 [libraries]
 
@@ -43,7 +43,7 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling"}
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest"}
 
-
+androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }

@@ -24,5 +24,5 @@ sealed class NavigationItem(var route: String, var icon: Int, var title: String)
 
 
     // listing
-
+    object Calendar : NavigationItem("calendar", R.drawable.nav_profile, "Calendar")
 }
