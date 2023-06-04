@@ -10,7 +10,6 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.samples.crane.home.CraneHome
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -105,7 +104,7 @@ fun MobinApp(
             NavHost(navController, startDestination = NavigationItem.Dashboard.route) {
 
 
-                //welcome
+                // Welcome New User Screen
                 composable(
                     route = NavigationItem.Welcome.route
                 ) {
@@ -123,18 +122,19 @@ fun MobinApp(
                 }
 
 
-                //survey
+                //Survey Screen
                 composable(
                     route = NavigationItem.Survey.route
-                ) { navBackStackEntry ->
-                    SurveyRoute(onNavUp = {},
+                ) {
+                    SurveyRoute(
+                        onNavUp = {},
                         onSurveyComplete = { navController.navigate(NavigationItem.Dashboard.route) },
                         fragmentManager = (activity as AppCompatActivity).supportFragmentManager
                     )
                 }
 
 
-                //signin
+                //Signing User
                 composable(NavigationItem.SignIn.route) {
                     val startingEmail = it.arguments?.getString("email")
                     SignInRoute(
@@ -149,7 +149,7 @@ fun MobinApp(
                     )
                 }
 
-                //signup
+                //SignUp User
                 composable(NavigationItem.SignUp.route) {
                     val startingEmail = it.arguments?.getString("email")
                     SignUpRoute(
@@ -164,14 +164,13 @@ fun MobinApp(
                     )
                 }
 
-                //dashboard
+                //Dashboard Screen
                 composable(
                     route = NavigationItem.Dashboard.route
                 ) { navBackStackEntry ->
                     val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                     val viewModel: DashboardViewModel =
                         viewModel(activity, "DashboardViewModel", factory)
-
                     DashboardScreen(
                         isDarkTheme = settingsDataStore.isDark.value,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
@@ -182,14 +181,13 @@ fun MobinApp(
                     )
                 }
 
-                //insights
+                //Insights Screen
                 composable(
                     route = NavigationItem.Insights.route
                 ) { navBackStackEntry ->
                     val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                     val viewModel: InsightsViewModel =
                         viewModel(activity, "InsightsViewModel", factory)
-
                     InsightsScreen(
                         isDarkTheme = settingsDataStore.isDark.value,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
@@ -201,14 +199,13 @@ fun MobinApp(
                 }
 
 
-                //list
+                //Listing
                 composable(
                     route = NavigationItem.List.route
                 ) { navBackStackEntry ->
                     val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                     val viewModel: RecipeListViewModel =
                         viewModel(activity, "RecipeListViewModel", factory)
-
                     RecipeListScreen(
                         isDarkTheme = settingsDataStore.isDark.value,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
@@ -219,6 +216,8 @@ fun MobinApp(
                     )
                 }
 
+
+                //Listing Detail
                 composable(
                     route = NavigationItem.RecipeDetail.route + "/{recipeId}",
                     arguments = listOf(navArgument("recipeId") {
@@ -234,12 +233,11 @@ fun MobinApp(
                         recipeId = navBackStackEntry.arguments?.getInt("recipeId"),
                         viewModel = viewModel,
                         scaffoldPadding = scaffoldPadding
-
                     )
                 }
 
 
-                //Explore
+                //Explore Screen
                 composable(
                     route = NavigationItem.Explore.route
                 ) { navBackStackEntry ->
@@ -257,7 +255,7 @@ fun MobinApp(
                 }
 
 
-                //Profile
+                //Profile Screen
                 composable(
                     route = NavigationItem.Profile.route
                 ) { navBackStackEntry ->
@@ -277,7 +275,8 @@ fun MobinApp(
 
                 composable(NavigationItem.Dashboard.route) {
                     val mainViewModel = hiltViewModel<MainViewModel>()
-                    CraneHome(widthSize = widthSizeClass,
+                    CraneHome(
+                        widthSize = widthSizeClass,
                         onExploreItemClicked = { },
                         onDateSelectionClicked = {},
                         viewModel = mainViewModel

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.compose.samples.crane.home
+package org.lotka.bp.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize

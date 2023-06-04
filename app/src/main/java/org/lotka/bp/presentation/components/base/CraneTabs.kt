@@ -35,7 +35,7 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import org.lotka.bp.R
-import androidx.compose.samples.crane.home.CraneScreen
+import org.lotka.bp.presentation.CraneScreen
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip

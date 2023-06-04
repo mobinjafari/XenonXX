@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.compose.samples.crane.home
+package org.lotka.bp.presentation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -57,7 +57,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.lotka.bp.R
-import org.lotka.bp.presentation.MainViewModel
 import org.lotka.bp.presentation.theme.BottomSheetShape
 
 typealias OnExploreItemClicked = (ExploreModel) -> Unit

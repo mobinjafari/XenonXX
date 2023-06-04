@@ -43,7 +43,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.samples.crane.data.ExploreModel
-import androidx.compose.samples.crane.home.OnExploreItemClicked
+import org.lotka.bp.presentation.OnExploreItemClicked
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale

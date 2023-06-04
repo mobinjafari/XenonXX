@@ -43,7 +43,7 @@ class MainViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val shownSplash = mutableStateOf(SplashState.Shown)
+
     val hotels: List<ExploreModel> = destinationsRepository.hotels
     val restaurants: List<ExploreModel> = destinationsRepository.restaurants
 
