@@ -116,7 +116,12 @@ fun CraneHomeContent(
     val suggestedDestinations by viewModel.suggestedDestinations.observeAsState()
 
     val onPeopleChanged: (Int) -> Unit = { viewModel.updatePeople(it) }
-    val pagerState = rememberPagerState(initialPage = CraneScreen.Fly.ordinal,0f, { 5 })
+    val pagerState = rememberPagerState(initialPage = 1, initialPageOffsetFraction = 0f) {
+        CraneScreen.values().size
+    }
+
+
+
     val coroutineScope = rememberCoroutineScope()
     val craneScreenValues = CraneScreen.values()
     BackdropScaffold(
@@ -148,8 +153,7 @@ fun CraneHomeContent(
         },
         frontLayerContent = {
             HorizontalPager(
-             //   pageCount = craneScreenValues.size,
-                state = pagerState,
+                state = pagerState
             ) { page ->
                 when (craneScreenValues[page]) {
                     CraneScreen.Fly -> {
@@ -178,6 +182,8 @@ fun CraneHomeContent(
                             onItemClicked = onExploreItemClicked
                         )
                     }
+
+                    else -> {}
                 }
             }
         }
@@ -268,6 +274,8 @@ private fun SearchContent(
                     onExploreItemClicked = onExploreItemClicked
                 )
             )
+
+            else -> {}
         }
     }
 }
