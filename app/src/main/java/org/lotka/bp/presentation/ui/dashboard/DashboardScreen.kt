@@ -15,6 +15,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
@@ -87,19 +88,17 @@ fun DashboardScreen(
     dialogQueue = dialogQueue.queue.value,
   ) {
     Scaffold(
-
       scaffoldState = scaffoldState,
       snackbarHost = {
         scaffoldState.snackbarHostState
       },
     ) {
-      val suggestedDestinations by viewModel.suggestedDestinations.observeAsState()
 
+      val suggestedDestinations by viewModel.suggestedDestinations.observeAsState()
       val onPeopleChanged: (Int) -> Unit = { viewModel.updatePeople(it) }
-      val pagerState = rememberPagerState(initialPage = 1, initialPageOffsetFraction = 0f) {
+      val pagerState = rememberPagerState(initialPage = 0, initialPageOffsetFraction = 0f) {
         CraneScreen.values().size
       }
-
 
       val coroutineScope = rememberCoroutineScope()
       val craneScreenValues = CraneScreen.values()
@@ -111,6 +110,7 @@ fun DashboardScreen(
         scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed),
         frontLayerShape = BottomSheetShape,
         frontLayerScrimColor = Color.Unspecified,
+        backLayerBackgroundColor = if (isDarkTheme) Color.Black else Color.White,
         appBar = {
           HomeTabBar(openDrawer, craneScreenValues[pagerState.currentPage], onTabSelected = {
             coroutineScope.launch {
@@ -141,6 +141,7 @@ fun DashboardScreen(
               CraneScreen.Fly -> {
                 suggestedDestinations?.let { destinations ->
                   ExploreSection(
+                    darkTheme = isDarkTheme,
                     widthSize = widthSize,
                     title = stringResource(R.string.explore_flights_by_destination),
                     exploreList = destinations,
@@ -150,6 +151,7 @@ fun DashboardScreen(
               }
               CraneScreen.Sleep -> {
                 ExploreSection(
+                  darkTheme = isDarkTheme,
                   widthSize = widthSize,
                   title = stringResource(R.string.explore_properties_by_destination),
                   exploreList = viewModel.hotels,
@@ -158,6 +160,7 @@ fun DashboardScreen(
               }
               CraneScreen.Eat -> {
                 ExploreSection(
+                  darkTheme = isDarkTheme,
                   widthSize = widthSize,
                   title = stringResource(R.string.explore_restaurants_by_destination),
                   exploreList = viewModel.restaurants,
@@ -185,9 +188,7 @@ private fun HomeTabBar(
 ) {
   CraneTabBar(
     modifier = modifier
-      .wrapContentWidth()
-      .sizeIn(maxWidth = 500.dp),
-    onMenuClicked = openDrawer
+      .wrapContentWidth().padding(8.dp),
   ) { tabBarModifier ->
     CraneTabs(
       modifier = tabBarModifier,

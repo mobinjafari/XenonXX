@@ -44,7 +44,6 @@ import org.lotka.bp.presentation.ui.calendar.model.CalendarState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import org.lotka.bp.presentation.ui.crane.MainViewModel
 import org.lotka.bp.presentation.ui.dashboard.DashboardViewModel
 import java.time.LocalDate
 

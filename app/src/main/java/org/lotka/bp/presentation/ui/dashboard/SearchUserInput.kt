@@ -30,8 +30,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.lotka.bp.R
-import androidx.compose.samples.crane.base.CraneEditableUserInput
-import androidx.compose.samples.crane.base.CraneUserInput
+import org.lotka.bp.presentation.components.base.CraneEditableUserInput
+import org.lotka.bp.presentation.components.base.CraneUserInput
 import org.lotka.bp.presentation.ui.dashboard.PeopleUserInputAnimationState.Invalid
 import org.lotka.bp.presentation.ui.dashboard.PeopleUserInputAnimationState.Valid
 
@@ -39,7 +39,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import org.lotka.bp.presentation.ui.crane.MAX_PEOPLE
 
 enum class PeopleUserInputAnimationState { Valid, Invalid }
 

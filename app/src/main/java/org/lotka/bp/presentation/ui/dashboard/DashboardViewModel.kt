@@ -26,14 +26,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lotka.bp.di.DefaultDispatcher
 import org.lotka.bp.presentation.ui.calendar.model.CalendarState
-import org.lotka.bp.presentation.ui.crane.MAX_PEOPLE
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Named
 import kotlin.random.Random
 
 const val PAGE_SIZE = 30
-
+const val MAX_PEOPLE = 4
 const val STATE_KEY_PAGE = "recipe.state.page.key"
 const val STATE_KEY_QUERY = "recipe.state.query.key"
 const val STATE_KEY_LIST_POSITION = "recipe.state.query.list_position"

@@ -32,7 +32,6 @@ import org.lotka.bp.presentation.navigation.NavigationItem
 import org.lotka.bp.presentation.navigation.util.shouldShowBottomBar
 import org.lotka.bp.presentation.theme.navigationDarkThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationLightThemeBackGroundColor
-import org.lotka.bp.presentation.ui.crane.MainViewModel
 import org.lotka.bp.presentation.ui.dashboard.DashboardScreen
 import org.lotka.bp.presentation.ui.dashboard.DashboardViewModel
 import org.lotka.bp.presentation.ui.explore.ExploreScreen
