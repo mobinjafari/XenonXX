@@ -22,7 +22,11 @@ sealed class NavigationItem(var route: String, var icon: Int, var title: String)
     object Explore : NavigationItem("explore", R.drawable.nav_explore, "Explore")
     object Profile : NavigationItem("profile", R.drawable.nav_profile, "Profile")
 
-
-    // listing
     object Calendar : NavigationItem("calendar", R.drawable.nav_profile, "Calendar")
+
+
+    object RecipeDetail : NavigationItem("RecipeDetail", R.drawable.nav_profile, "RecipeDetail")
+//    object RecipeList: Screen("recipeList")
+//
+//    object RecipeDetail: Screen("recipeDetail")
 }

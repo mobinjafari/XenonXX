@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.lotka.bp.domain.model.Recipe
-import org.lotka.bp.presentation.navigation.Screen
 import org.lotka.bp.presentation.ui.template.PAGE_SIZE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.lotka.bp.presentation.navigation.NavigationItem
 
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
@@ -46,7 +46,7 @@ fun RecipeList(
                     RecipeCard(
                         recipe = recipe,
                         onClick = {
-                            val route = Screen.RecipeDetail.route + "/${recipe.id}"
+                            val route = NavigationItem.RecipeDetail.route + "/${recipe.id}"
                             onNavigateToRecipeDetailScreen(route)
                         }
                     )

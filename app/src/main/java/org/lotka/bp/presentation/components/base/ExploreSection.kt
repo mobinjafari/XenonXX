@@ -43,7 +43,6 @@ import androidx.compose.material.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.samples.crane.data.ExploreModel
-import androidx.compose.samples.crane.home.OnExploreItemClicked
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -51,22 +50,30 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import org.lotka.bp.presentation.theme.DarkBackground
+import org.lotka.bp.presentation.theme.DarkThemeLightTextColor
+import org.lotka.bp.presentation.theme.LightBackground
+import org.lotka.bp.presentation.theme.LightThemeDarkTextColor
 import org.lotka.bp.presentation.theme.crane_caption
+import org.lotka.bp.presentation.ui.dashboard.OnExploreItemClicked
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExploreSection(
+    darkTheme: Boolean,
     widthSize: WindowWidthSizeClass,
     modifier: Modifier = Modifier,
     title: String,
     exploreList: List<ExploreModel>,
     onItemClicked: OnExploreItemClicked
 ) {
-    Surface(modifier = modifier.fillMaxSize(), color = Color.White) {
+    Surface(modifier = modifier.fillMaxSize()
+        , color = if(darkTheme) DarkBackground else LightBackground
+    ) {
         Column(modifier = Modifier.padding(start = 24.dp, top = 20.dp, end = 24.dp)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.caption.copy(color = crane_caption)
+                style = MaterialTheme.typography.caption.copy(color = if (darkTheme) DarkThemeLightTextColor else LightThemeDarkTextColor )
             )
             Spacer(Modifier.height(8.dp))
 
@@ -81,7 +88,8 @@ fun ExploreSection(
                                 ExploreItemColumn(
                                     modifier = Modifier.fillMaxWidth(),
                                     item = exploreItem,
-                                    onItemClicked = onItemClicked
+                                    onItemClicked = onItemClicked,
+                                    darkTheme = darkTheme
                                 )
                             }
                             else -> {
@@ -110,6 +118,7 @@ fun ExploreSection(
  */
 @Composable
 private fun ExploreItemColumn(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     item: ExploreModel,
     onItemClicked: OnExploreItemClicked
@@ -137,7 +146,7 @@ private fun ExploreItemColumn(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = item.description,
-                style = MaterialTheme.typography.caption.copy(color = crane_caption)
+                style = MaterialTheme.typography.caption.copy(color  = if (darkTheme) DarkThemeLightTextColor else LightThemeDarkTextColor)
             )
         }
     }

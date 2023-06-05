@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.compose.samples.crane.home
+package org.lotka.bp.presentation.ui.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
@@ -23,7 +23,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.samples.crane.base.SimpleUserInput
+import org.lotka.bp.presentation.components.base.SimpleUserInput
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
