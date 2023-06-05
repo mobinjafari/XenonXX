@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lotka.bp.presentation.ui.crane
+package org.lotka.bp.presentation.ui.dashboard
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
@@ -32,8 +32,8 @@ import androidx.compose.runtime.setValue
 import org.lotka.bp.R
 import androidx.compose.samples.crane.base.CraneEditableUserInput
 import androidx.compose.samples.crane.base.CraneUserInput
-import org.lotka.bp.presentation.ui.crane.PeopleUserInputAnimationState.Invalid
-import org.lotka.bp.presentation.ui.crane.PeopleUserInputAnimationState.Valid
+import org.lotka.bp.presentation.ui.dashboard.PeopleUserInputAnimationState.Invalid
+import org.lotka.bp.presentation.ui.dashboard.PeopleUserInputAnimationState.Valid
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color

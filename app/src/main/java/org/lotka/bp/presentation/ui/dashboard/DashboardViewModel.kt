@@ -1,8 +1,14 @@
 package org.lotka.bp.presentation.ui.dashboard
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.samples.crane.data.DestinationsRepository
+import androidx.compose.samples.crane.data.ExploreModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,11 +19,18 @@ import org.lotka.bp.presentation.ui.util.DialogQueue
 import org.lotka.bp.presentation.util.ConnectivityManager
 import org.lotka.bp.util.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.lotka.bp.di.DefaultDispatcher
+import org.lotka.bp.presentation.ui.calendar.model.CalendarState
+import org.lotka.bp.presentation.ui.crane.MAX_PEOPLE
+import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.random.Random
 
 const val PAGE_SIZE = 30
 
@@ -35,7 +48,59 @@ constructor(
     private val connectivityManager: ConnectivityManager,
     private @Named("auth_token") val token: String,
     private val savedStateHandle: SavedStateHandle,
+    private val destinationsRepository: DestinationsRepository,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
+
+
+    val hotels: List<ExploreModel> = destinationsRepository.hotels
+    val restaurants: List<ExploreModel> = destinationsRepository.restaurants
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    val calendarState = CalendarState()
+
+    private val _suggestedDestinations = MutableLiveData<List<ExploreModel>>()
+    val suggestedDestinations: LiveData<List<ExploreModel>>
+        get() = _suggestedDestinations
+
+    init {
+        _suggestedDestinations.value = destinationsRepository.destinations
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onDaySelected(daySelected: LocalDate) {
+        viewModelScope.launch {
+            calendarState.setSelectedDay(daySelected)
+        }
+    }
+
+    fun updatePeople(people: Int) {
+        viewModelScope.launch {
+            if (people > MAX_PEOPLE) {
+                _suggestedDestinations.value = emptyList()
+            } else {
+                val newDestinations = withContext(defaultDispatcher) {
+                    destinationsRepository.destinations
+                        .shuffled(Random(people * (1..100).shuffled().first()))
+                }
+                _suggestedDestinations.value = newDestinations
+            }
+        }
+    }
+
+    fun toDestinationChanged(newDestination: String) {
+        viewModelScope.launch {
+            val newDestinations = withContext(defaultDispatcher) {
+                destinationsRepository.destinations
+                    .filter { it.city.nameToDisplay.contains(newDestination) }
+            }
+            _suggestedDestinations.value = newDestinations
+        }
+    }
+
+
+
+
 
 
     val recipes: MutableState<List<Recipe>> = mutableStateOf(ArrayList())

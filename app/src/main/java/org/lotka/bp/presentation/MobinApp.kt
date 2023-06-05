@@ -32,7 +32,6 @@ import org.lotka.bp.presentation.navigation.NavigationItem
 import org.lotka.bp.presentation.navigation.util.shouldShowBottomBar
 import org.lotka.bp.presentation.theme.navigationDarkThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationLightThemeBackGroundColor
-import org.lotka.bp.presentation.ui.crane.CraneHome
 import org.lotka.bp.presentation.ui.crane.MainViewModel
 import org.lotka.bp.presentation.ui.dashboard.DashboardScreen
 import org.lotka.bp.presentation.ui.dashboard.DashboardViewModel
@@ -179,7 +178,13 @@ fun MobinApp(
                         onToggleTheme = settingsDataStore::toggleTheme,
                         onNavigateToRecipeDetailScreen = navController::navigate,
                         viewModel = viewModel,
-                        scaffoldPadding = scaffoldPadding
+                        scaffoldPadding = scaffoldPadding,
+                        onDateSelectionClicked = {},
+                        openDrawer = {},
+                        widthSize = widthSizeClass,
+                        onExploreItemClicked = {
+
+                        }
                     )
                 }
 

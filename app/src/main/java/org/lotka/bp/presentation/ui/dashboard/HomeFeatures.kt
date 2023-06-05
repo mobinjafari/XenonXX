@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lotka.bp.presentation.ui.crane
+package org.lotka.bp.presentation.ui.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding

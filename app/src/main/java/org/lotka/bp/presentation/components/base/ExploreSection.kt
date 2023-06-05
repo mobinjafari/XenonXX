@@ -43,7 +43,6 @@ import androidx.compose.material.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.samples.crane.data.ExploreModel
-import org.lotka.bp.presentation.ui.crane.OnExploreItemClicked
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -52,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.lotka.bp.presentation.theme.crane_caption
+import org.lotka.bp.presentation.ui.dashboard.OnExploreItemClicked
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
