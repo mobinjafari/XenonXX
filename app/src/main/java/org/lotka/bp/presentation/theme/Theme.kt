@@ -71,8 +71,8 @@ private val DarkThemeColors = darkColors(
 )
 
 val BottomSheetShape = RoundedCornerShape(
-  topStart = 20.dp,
-  topEnd = 20.dp,
+  topStart = 8.dp,
+  topEnd = 8.dp,
   bottomStart = 0.dp,
   bottomEnd = 0.dp
 )

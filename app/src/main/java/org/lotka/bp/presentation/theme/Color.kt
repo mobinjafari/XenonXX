@@ -27,8 +27,11 @@ var navigationDarkThemeItemColor = Color.White
 var navigationLightThemeBackGroundColor = Color.White
 var navigationLightThemeItemColor = Color(0xFF181818)
 
+var DarkBackground =  Color(0xFF181818)
+var LightBackground =  Color(0xFFF1F1F1)
 
-
+var DarkThemeLightTextColor =  Color(0xFFFFFFFF)
+var LightThemeDarkTextColor =  Color(0xFF000000)
 
 val md_theme_light_primary = Color(0xFF8307F0)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)

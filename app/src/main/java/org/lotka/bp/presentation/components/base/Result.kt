@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.compose.samples.crane.base
+package org.lotka.bp.presentation.components.base
 
 /**
  * A generic class that holds a value.
