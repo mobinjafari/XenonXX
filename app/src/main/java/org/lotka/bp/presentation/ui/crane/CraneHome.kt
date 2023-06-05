@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lotka.bp.presentation
+package org.lotka.bp.presentation.ui.crane
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -29,6 +29,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -77,7 +78,7 @@ fun CraneHome(
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier.background(Color.Blue).statusBarsPadding(),
         drawerContent = {
             CraneDrawer()
         }

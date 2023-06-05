@@ -32,6 +32,8 @@ import org.lotka.bp.presentation.navigation.NavigationItem
 import org.lotka.bp.presentation.navigation.util.shouldShowBottomBar
 import org.lotka.bp.presentation.theme.navigationDarkThemeBackGroundColor
 import org.lotka.bp.presentation.theme.navigationLightThemeBackGroundColor
+import org.lotka.bp.presentation.ui.crane.CraneHome
+import org.lotka.bp.presentation.ui.crane.MainViewModel
 import org.lotka.bp.presentation.ui.dashboard.DashboardScreen
 import org.lotka.bp.presentation.ui.dashboard.DashboardViewModel
 import org.lotka.bp.presentation.ui.explore.ExploreScreen
@@ -272,17 +274,17 @@ fun MobinApp(
                     )
                 }
 
-
-                composable(NavigationItem.Dashboard.route) {
-                    val mainViewModel = hiltViewModel<MainViewModel>()
-                    CraneHome(
-                        widthSize = widthSizeClass,
-                        onExploreItemClicked = { },
-                        onDateSelectionClicked = {},
-                        viewModel = mainViewModel
-                    )
-
-                }
+//
+//                composable(NavigationItem.Dashboard.route) {
+//                    val mainViewModel = hiltViewModel<MainViewModel>()
+//                    CraneHome(
+//                        widthSize = widthSizeClass,
+//                        onExploreItemClicked = { },
+//                        onDateSelectionClicked = {},
+//                        viewModel = mainViewModel
+//                    )
+//
+//                }
 
 
             }

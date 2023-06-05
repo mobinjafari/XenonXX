@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lotka.bp.presentation
+package org.lotka.bp.presentation.ui.crane
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
@@ -27,19 +27,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.lotka.bp.R
 import androidx.compose.samples.crane.base.CraneEditableUserInput
 import androidx.compose.samples.crane.base.CraneUserInput
-import org.lotka.bp.presentation.PeopleUserInputAnimationState.Invalid
-import org.lotka.bp.presentation.PeopleUserInputAnimationState.Valid
+import org.lotka.bp.presentation.ui.crane.PeopleUserInputAnimationState.Invalid
+import org.lotka.bp.presentation.ui.crane.PeopleUserInputAnimationState.Valid
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import org.lotka.bp.presentation.ui.crane.MAX_PEOPLE
 
 enum class PeopleUserInputAnimationState { Valid, Invalid }
 
