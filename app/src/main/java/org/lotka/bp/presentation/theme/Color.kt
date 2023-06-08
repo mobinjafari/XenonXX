@@ -28,7 +28,7 @@ var navigationLightThemeBackGroundColor = Color.White
 var navigationLightThemeItemColor = Color(0xFF181818)
 
 var DarkBackground =  Color(0xFF181818)
-var LightBackground =  Color(0xFFF1F1F1)
+var LightBackground =  Color(0xFFFFFFFF)
 
 var DarkThemeLightTextColor =  Color(0xFFFFFFFF)
 var LightThemeDarkTextColor =  Color(0xFF000000)

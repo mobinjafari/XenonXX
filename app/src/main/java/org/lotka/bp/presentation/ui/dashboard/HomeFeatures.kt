@@ -16,6 +16,7 @@
 
 package org.lotka.bp.presentation.ui.dashboard
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,6 +26,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import org.lotka.bp.presentation.components.base.SimpleUserInput
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.lotka.bp.R
@@ -108,7 +110,8 @@ fun SleepSearchContent(
 fun EatSearchContent(
     widthSize: WindowWidthSizeClass,
     datesSelected: String,
-    eatUpdates: EatSearchContentUpdates
+    eatUpdates: EatSearchContentUpdates,
+
 ) {
     val columns = when (widthSize) {
         WindowWidthSizeClass.Compact -> 1
@@ -147,7 +150,8 @@ private fun CraneSearch(
     content: LazyGridScope.() -> Unit
 ) {
     LazyVerticalGrid(
-        modifier = Modifier.padding(start = 24.dp, top = 0.dp, end = 24.dp, bottom = 12.dp),
+        modifier = Modifier.background(
+            Color.Unspecified).padding(start = 24.dp, top = 0.dp, end = 24.dp, bottom = 12.dp),
         columns = GridCells.Fixed(columns),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
