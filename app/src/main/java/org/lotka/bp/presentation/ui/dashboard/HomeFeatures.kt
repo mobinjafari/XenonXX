@@ -18,7 +18,9 @@ package org.lotka.bp.presentation.ui.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -49,25 +51,30 @@ fun FlySearchContent(
         columns,
         content = {
             item {
-                PeopleUserInput(
-                    titleSuffix = ", Economy",
-                    onPeopleChanged = searchUpdates.onPeopleChanged
-                )
+                Column(Modifier.size(230.dp)) {
+
+                }
             }
-            item {
-                FromDestination()
-            }
-            item {
-                ToDestinationUserInput(
-                    onToDestinationChanged = searchUpdates.onToDestinationChanged
-                )
-            }
-            item {
-                DatesUserInput(
-                    datesSelected,
-                    onDateSelectionClicked = searchUpdates.onDateSelectionClicked
-                )
-            }
+//            item {
+//                PeopleUserInput(
+//                    titleSuffix = ", Economy",
+//                    onPeopleChanged = searchUpdates.onPeopleChanged
+//                )
+//            }
+//            item {
+//                FromDestination()
+//            }
+//            item {
+//                ToDestinationUserInput(
+//                    onToDestinationChanged = searchUpdates.onToDestinationChanged
+//                )
+//            }
+//            item {
+//                DatesUserInput(
+//                    datesSelected,
+//                    onDateSelectionClicked = searchUpdates.onDateSelectionClicked
+//                )
+//            }
         }
     )
 }
@@ -150,8 +157,11 @@ private fun CraneSearch(
     content: LazyGridScope.() -> Unit
 ) {
     LazyVerticalGrid(
-        modifier = Modifier.background(
-            Color.Unspecified).padding(start = 24.dp, top = 0.dp, end = 24.dp, bottom = 12.dp),
+        modifier = Modifier
+            .background(
+                Color.Unspecified
+            )
+            .padding(start = 24.dp, top = 0.dp, end = 24.dp, bottom = 12.dp),
         columns = GridCells.Fixed(columns),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),

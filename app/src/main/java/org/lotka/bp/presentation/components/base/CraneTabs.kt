@@ -67,16 +67,16 @@ fun CraneTabs(
         selectedTabIndex = tabSelected.ordinal,
         modifier = modifier,
         backgroundColor = Color.Unspecified,
-        contentColor = if(isDarkTheme) DarkThemeLightTextColor else LightThemeDarkTextColor,
+        contentColor = DarkThemeLightTextColor ,
         indicator = { tabPositions: List<TabPosition> ->
             Box(
                 Modifier.tabIndicatorOffset(tabPositions[tabSelected.ordinal])
                     .fillMaxSize()
                     .padding(horizontal = 4.dp)
                     .border(
-                        border = BorderStroke(2.dp,
-                            color = if(isDarkTheme) DarkThemeLightTextColor else LightThemeDarkTextColor),
-                        RoundedCornerShape(16.dp))
+                        border = BorderStroke(1.dp,
+                            color = DarkThemeLightTextColor  ),
+                        RoundedCornerShape(8.dp))
             )
         },
         divider = { }

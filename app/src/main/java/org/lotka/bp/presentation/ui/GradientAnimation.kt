@@ -22,7 +22,7 @@ fun GradientAnimation(modifier: Modifier) {
         )
 
     val color1 = remember { Color(0xff222831) }
-    val color2 = remember { Color(0xFF393e46) }
+    val color2 = remember { Color(0xFF005555) }
 
     val animatedColor = lerpColor(color1, color2, colorAnimation.value)
 
