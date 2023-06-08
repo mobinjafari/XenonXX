@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
@@ -118,8 +119,8 @@ fun DashboardScreen(
       Box {
 
         GradientAnimation(          modifier = Modifier
-          .width(configuration.screenWidthDp.dp)
-          .height((configuration.screenWidthDp.dp/4)*3))
+          .width(configuration.screenWidthDp.dp+20.dp)
+          .height((configuration.screenWidthDp.dp/4)*5))
 
 
 
@@ -211,7 +212,8 @@ private fun HomeTabBar(
   modifier: Modifier = Modifier
 ) {
   CraneTabBar(
-    modifier = modifier
+    modifier = modifier.statusBarsPadding()
+
       .background(Color.Unspecified)
       .wrapContentWidth()
       .padding(8.dp),
