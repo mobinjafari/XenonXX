@@ -1,5 +1,6 @@
 package org.lotka.bp.presentation.ui.dashboard
 
+import GradientAnimation
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -14,15 +15,21 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -31,15 +38,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.samples.crane.base.CraneTabBar
-import androidx.compose.samples.crane.base.CraneTabs
-import androidx.compose.samples.crane.base.ExploreSection
+import org.lotka.bp.presentation.components.base.CraneTabBar
+import org.lotka.bp.presentation.components.base.CraneTabs
+import org.lotka.bp.presentation.components.base.ExploreSection
 import androidx.compose.samples.crane.data.ExploreModel
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.google.android.material.color.utilities.MaterialDynamicColors.background
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.lotka.bp.R
@@ -73,7 +85,7 @@ fun DashboardScreen(
   widthSize: WindowWidthSizeClass,
   onExploreItemClicked: OnExploreItemClicked,
 ) {
-
+  val configuration = LocalConfiguration.current
 
   val loading = viewModel.loading.value
   val dialogQueue = viewModel.dialogQueue
@@ -103,76 +115,88 @@ fun DashboardScreen(
       val coroutineScope = rememberCoroutineScope()
       val craneScreenValues = CraneScreen.values()
 
+      Box {
+
+        GradientAnimation(          modifier = Modifier
+          .width(configuration.screenWidthDp.dp)
+          .height((configuration.screenWidthDp.dp/4)*3))
 
 
-      BackdropScaffold(
 
-        scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed),
-        frontLayerShape = BottomSheetShape,
-        frontLayerScrimColor = Color.Unspecified,
-        backLayerBackgroundColor = if (isDarkTheme) Color.Black else Color.White,
-        appBar = {
-          HomeTabBar(openDrawer, craneScreenValues[pagerState.currentPage], onTabSelected = {
-            coroutineScope.launch {
-              pagerState.animateScrollToPage(
-                it.ordinal,
-                animationSpec = tween(
-                  TAB_SWITCH_ANIM_DURATION
+        BackdropScaffold(
+          scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed),
+          frontLayerShape = BottomSheetShape,
+
+          frontLayerScrimColor = Color.Unspecified,
+          backLayerBackgroundColor = Color.Unspecified,
+          backLayerContentColor = Color.Red,
+          appBar = {
+
+            HomeTabBar(isDarkTheme=isDarkTheme ,craneScreenValues[pagerState.currentPage], onTabSelected = {
+              coroutineScope.launch {
+                pagerState.animateScrollToPage(
+                  it.ordinal,
+                  animationSpec = tween(
+                    TAB_SWITCH_ANIM_DURATION
+                  )
                 )
-              )
-            }
-          })
-        },
-        backLayerContent = {
-          SearchContent(
-            widthSize,
-            craneScreenValues[pagerState.currentPage],
-            viewModel,
-            onPeopleChanged,
-            onDateSelectionClicked,
-            onExploreItemClicked
-          )
-        },
-        frontLayerContent = {
-          HorizontalPager(
-            state = pagerState
-          ) { page ->
-            when (craneScreenValues[page]) {
-              CraneScreen.Fly -> {
-                suggestedDestinations?.let { destinations ->
+              }
+            })
+          },
+          backLayerContent = {
+            SearchContent(
+              widthSize,
+              craneScreenValues[pagerState.currentPage],
+              viewModel,
+              onPeopleChanged,
+              onDateSelectionClicked,
+              onExploreItemClicked
+            )
+          },
+          frontLayerContent = {
+            HorizontalPager(
+              state = pagerState
+            ) { page ->
+              when (craneScreenValues[page]) {
+                CraneScreen.Fly -> {
+                  suggestedDestinations?.let { destinations ->
+                    ExploreSection(
+                      darkTheme = isDarkTheme,
+                      widthSize = widthSize,
+                      title = stringResource(R.string.explore_flights_by_destination),
+                      exploreList = destinations,
+                      onItemClicked = onExploreItemClicked
+                    )
+                  }
+                }
+                CraneScreen.Sleep -> {
                   ExploreSection(
                     darkTheme = isDarkTheme,
                     widthSize = widthSize,
-                    title = stringResource(R.string.explore_flights_by_destination),
-                    exploreList = destinations,
+                    title = stringResource(R.string.explore_properties_by_destination),
+                    exploreList = viewModel.hotels,
                     onItemClicked = onExploreItemClicked
                   )
                 }
-              }
-              CraneScreen.Sleep -> {
-                ExploreSection(
-                  darkTheme = isDarkTheme,
-                  widthSize = widthSize,
-                  title = stringResource(R.string.explore_properties_by_destination),
-                  exploreList = viewModel.hotels,
-                  onItemClicked = onExploreItemClicked
-                )
-              }
-              CraneScreen.Eat -> {
-                ExploreSection(
-                  darkTheme = isDarkTheme,
-                  widthSize = widthSize,
-                  title = stringResource(R.string.explore_restaurants_by_destination),
-                  exploreList = viewModel.restaurants,
-                  onItemClicked = onExploreItemClicked
-                )
-              }
+                CraneScreen.Eat -> {
+                  ExploreSection(
+                    darkTheme = isDarkTheme,
+                    widthSize = widthSize,
+                    title = stringResource(R.string.explore_restaurants_by_destination),
+                    exploreList = viewModel.restaurants,
+                    onItemClicked = onExploreItemClicked
+                  )
+                }
 
-              else -> {}
+                else -> {}
+              }
             }
           }
-        }
-      )
+        )
+      }
+
+
+
     }
   }
 }
@@ -181,20 +205,25 @@ fun DashboardScreen(
 
 @Composable
 private fun HomeTabBar(
-  openDrawer: () -> Unit,
+  isDarkTheme: Boolean,
   tabSelected: CraneScreen,
   onTabSelected: (CraneScreen) -> Unit,
   modifier: Modifier = Modifier
 ) {
   CraneTabBar(
     modifier = modifier
-      .wrapContentWidth().padding(8.dp),
+      .background(Color.Unspecified)
+      .wrapContentWidth()
+      .padding(8.dp),
   ) { tabBarModifier ->
     CraneTabs(
+      isDarkTheme=isDarkTheme,
       modifier = tabBarModifier,
       titles = CraneScreen.values().map { it.name },
       tabSelected = tabSelected,
-      onTabSelected = { newTab -> onTabSelected(CraneScreen.values()[newTab.ordinal]) }
+      onTabSelected = { newTab -> onTabSelected(CraneScreen.values()[newTab.ordinal])
+
+      }
     )
   }
 }
@@ -262,7 +291,6 @@ private fun SearchContent(
         )
       )
 
-      else -> {}
     }
   }
 }

@@ -1,7 +1,7 @@
-package com.example.owl.insights
+package org.lotka.bp.presentation.ui.insights
 
 
-import com.example.owl.insights.InsightsCategory.*
+import org.lotka.bp.presentation.ui.insights.InsightsCategory.*
 
 enum class InsightsCategory(val value: String){
     ERROR("error"),

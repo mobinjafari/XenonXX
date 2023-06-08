@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.compose.samples.crane.base
+package org.lotka.bp.presentation.components.base
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -44,10 +44,10 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.samples.crane.data.ExploreModel
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.lotka.bp.presentation.theme.DarkBackground
@@ -73,8 +73,9 @@ fun ExploreSection(
         Column(modifier = Modifier.padding(start = 24.dp, top = 20.dp, end = 24.dp)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.caption.copy(color = if (darkTheme) DarkThemeLightTextColor else LightThemeDarkTextColor )
+                style = MaterialTheme.typography.h3.copy(color = if (darkTheme) DarkThemeLightTextColor else LightThemeDarkTextColor )
             )
+
             Spacer(Modifier.height(8.dp))
 
             LazyVerticalStaggeredGrid(
@@ -140,7 +141,7 @@ private fun ExploreItemColumn(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = item.city.nameToDisplay,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.h2
             )
             Spacer(Modifier.height(4.dp))
             Text(
@@ -170,12 +171,12 @@ private fun ExploreItemRow(
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = item.city.nameToDisplay,
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.h3.copy(fontSize = 16.sp)
             )
             Spacer(Modifier.height(4.dp))
             Text(
                 text = item.description,
-                style = MaterialTheme.typography.caption.copy(color = crane_caption)
+                style = MaterialTheme.typography.h4.copy(fontSize = 14.sp)
             )
         }
     }
