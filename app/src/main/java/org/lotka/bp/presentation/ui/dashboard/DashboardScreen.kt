@@ -1,5 +1,6 @@
 package org.lotka.bp.presentation.ui.dashboard
 
+import GradientAnimation
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -28,6 +29,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -42,12 +44,14 @@ import org.lotka.bp.presentation.components.base.ExploreSection
 import androidx.compose.samples.crane.data.ExploreModel
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.google.android.material.color.utilities.MaterialDynamicColors.background
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.lotka.bp.R
@@ -113,17 +117,13 @@ fun DashboardScreen(
 
       Box {
 
-        Image(
-          painter = painterResource(id = R.drawable.bg_polygon)
-          , contentDescription = null,
-          contentScale = ContentScale.Crop,
-          modifier = Modifier.width(configuration.screenWidthDp.dp).height((configuration.screenHeightDp.dp/2)-100.dp)
+        GradientAnimation(          modifier = Modifier
+          .width(configuration.screenWidthDp.dp)
+          .height((configuration.screenWidthDp.dp/4)*3))
 
-        )
 
 
         BackdropScaffold(
-
           scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed),
           frontLayerShape = BottomSheetShape,
 

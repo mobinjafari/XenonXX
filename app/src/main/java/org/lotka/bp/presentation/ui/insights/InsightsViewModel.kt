@@ -16,6 +16,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.lotka.bp.presentation.ui.insights.InsightsCategory
+import org.lotka.bp.presentation.ui.insights.getInsightsCategory
 import javax.inject.Inject
 import javax.inject.Named
 

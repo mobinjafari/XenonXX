@@ -176,7 +176,7 @@ private fun ExploreItemRow(
             Spacer(Modifier.height(4.dp))
             Text(
                 text = item.description,
-                style = MaterialTheme.typography.h4.copy(color = crane_caption , fontSize = 14.sp)
+                style = MaterialTheme.typography.h4.copy(fontSize = 14.sp)
             )
         }
     }
