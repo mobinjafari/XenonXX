@@ -27,19 +27,8 @@ fun ExploreScreen(
   scaffoldPadding : PaddingValues
 ) {
 
-
-  val recipes = viewModel.recipes.value
-
-  val query = viewModel.query.value
-
-  val selectedCategory = viewModel.selectedCategory.value
-
   val loading = viewModel.loading.value
-
-  val page = viewModel.page.value
-
   val dialogQueue = viewModel.dialogQueue
-
   val scaffoldState = rememberScaffoldState()
 
   AppTheme(
@@ -50,7 +39,6 @@ fun ExploreScreen(
     dialogQueue = dialogQueue.queue.value,
   ) {
     Scaffold(
-
       scaffoldState = scaffoldState,
       snackbarHost = {
         scaffoldState.snackbarHostState

@@ -6,36 +6,44 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun GradientAnimation(modifier: Modifier) {
-    val colorAnimation = rememberInfiniteTransition()
+    val rotationAnimation = rememberInfiniteTransition()
         .animateFloat(
             initialValue = 0f,
-            targetValue = 1f,
+            targetValue = 360f,
             animationSpec = infiniteRepeatable(
-                animation = tween(20000, easing = EaseOutSine),
-                repeatMode = RepeatMode.Reverse
+                animation = tween(20000, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart
             )
         )
 
     val color1 = remember { Color(0xff222831) }
-    val color2 = remember { Color(0xFF005555) }
+    val color2 = remember { Color(0xFF393e46) }
 
-    val animatedColor = lerpColor(color1, color2, colorAnimation.value)
+    val animatedColor = lerpColor(color1, color2, 0.5f)
 
     Canvas(modifier = modifier) {
-        drawGradientBackground(animatedColor, size)
+        translate(size.width / 2, size.height / 2) {
+            rotate(rotationAnimation.value) {
+                drawGradientBackground(animatedColor, size)
+            }
+        }
     }
 }
 
 private fun DrawScope.drawGradientBackground(color: Color, size: Size) {
-    val gradient = Brush.linearGradient(
-        colors = listOf(color, color),
-        start = Offset(0f, 0f),
-        end = Offset(size.width, size.height)
+    val gradient = Brush.radialGradient(
+        colors = listOf(Color.Red, Color.Green, Color.Blue, Color.Cyan),
+        center = Offset(0f, 0f),
+        radius = size.minDimension / 2,
+        tileMode = TileMode.Decal
     )
     drawRect(brush = gradient)
 }

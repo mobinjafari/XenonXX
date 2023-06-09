@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -84,6 +85,7 @@ android {
 }
 
 dependencies {
+
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -184,4 +186,6 @@ dependencies {
 
 
    // implementation ("androidx.compose.animation:animation:1.4.3")
+
+    //implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
 }

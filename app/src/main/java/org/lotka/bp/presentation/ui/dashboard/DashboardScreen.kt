@@ -120,14 +120,13 @@ fun DashboardScreen(
 
         GradientAnimation(          modifier = Modifier
           .width(configuration.screenWidthDp.dp+20.dp)
-          .height((configuration.screenWidthDp.dp/4)*5))
+          .height((configuration.screenHeightDp.dp/3)*4))
 
 
 
         BackdropScaffold(
           scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed),
           frontLayerShape = BottomSheetShape,
-
           frontLayerScrimColor = Color.Unspecified,
           backLayerBackgroundColor = Color.Unspecified,
           backLayerContentColor = Color.Red,
@@ -155,6 +154,7 @@ fun DashboardScreen(
             )
           },
           frontLayerContent = {
+
             HorizontalPager(
               state = pagerState
             ) { page ->
@@ -192,7 +192,12 @@ fun DashboardScreen(
                 else -> {}
               }
             }
-          }
+          },
+          gesturesEnabled = true,
+          peekHeight = 85.dp,
+          stickyFrontLayer = false,
+          headerHeight = 250.dp
+
         )
       }
 
