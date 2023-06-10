@@ -43,7 +43,7 @@ private fun DrawScope.drawGradientBackground(color: Color, size: Size) {
         colors = listOf(Color.Red, Color.Green, Color.Blue, Color.Cyan),
         center = Offset(0f, 0f),
         radius = size.minDimension / 2,
-        tileMode = TileMode.Decal
+        tileMode = TileMode.Mirror
     )
     drawRect(brush = gradient)
 }

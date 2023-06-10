@@ -188,4 +188,5 @@ dependencies {
    // implementation ("androidx.compose.animation:animation:1.4.3")
 
     implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
+     implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
 }
