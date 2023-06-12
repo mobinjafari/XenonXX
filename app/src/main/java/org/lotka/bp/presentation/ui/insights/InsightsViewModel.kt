@@ -91,6 +91,8 @@ constructor(
                     is InsightsEvent.RestoreStateEvent -> {
                         restoreState()
                     }
+
+                    else -> {}
                 }
             }catch (e: Exception){
                 Log.e(TAG, "launchJob: Exception: ${e}, ${e.cause}")

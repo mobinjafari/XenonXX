@@ -6,6 +6,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.darkColorScheme
@@ -97,12 +98,14 @@ fun AppTheme(
     Box(
       modifier = Modifier
         .fillMaxSize()
-        .background(color = if (!darkTheme) Grey1 else Color.Black)
+        .background(color = if (!darkTheme) Color.Red else Color.Green)
     ){
-      Column{
-        ConnectivityMonitor(isNetworkAvailable = isNetworkAvailable)
-        content()
-      }
+      content()
+      ConnectivityMonitor(
+        isNetworkAvailable = isNetworkAvailable ,
+        modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 70.dp))
+
+
       CircularIndeterminateProgressBar(isDisplayed = displayProgressBar, 0.3f)
       DefaultSnackbar(
         snackbarHostState = scaffoldState.snackbarHostState,

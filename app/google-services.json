@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "125976201604",
+    "project_id": "bestpracticekotlin",
+    "storage_bucket": "bestpracticekotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125976201604:android:559de7d4f70a78ef3c35d1",
+        "android_client_info": {
+          "package_name": "org.lotka.bp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125976201604-kgpnsddcgmu5284p48p1ugmk1m4d7dpm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQpN-fxODPMsYpwajhdxmNjUF3Ys4CePc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125976201604-kgpnsddcgmu5284p48p1ugmk1m4d7dpm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
