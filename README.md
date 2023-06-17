@@ -23,8 +23,6 @@ It contains the same overall functionality but has additional features.
 
 
 # Resources
-1. Prerequisites:
-	1. [Jetpack Compose MVVM for Beginners](https://codingwithmitch.com/courses/jetpack-compose-mvvm-for-beginners/)
 1. [Junit5](https://github.com/mannodermaus/android-junit5)
-1. [Testing a Flow](https://developer.android.com/kotlin/flow/test)
-1. [Datastore](https://developer.android.com/topic/libraries/architecture/datastore#preferences-datastore)
+2. [Testing a Flow](https://developer.android.com/kotlin/flow/test)
+3. [Datastore](https://developer.android.com/topic/libraries/architecture/datastore#preferences-datastore)
