@@ -2,8 +2,6 @@
 Kotlin,MVVM,MVI,Navigation Component,Hilt, Jetpack Compose, Room Persistence, Use cases, Unit Testing, Retrofit2, Coroutines, REST API, Token Authentication,Firebase FCM,Analaytics,Crashlytics 
 
 
-It contains the same overall functionality but has additional features.
-
 # Features:
 1. Kotlin
 2. MVVM , MVI (some parts)
