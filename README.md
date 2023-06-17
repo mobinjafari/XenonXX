@@ -1,22 +1,24 @@
 # Kotlin Best Practice Android Project
-Kotlin,MVVM,MVI,Navigation Component,Hilt, Jetpack Compose, Room Persistence, Use cases, Unit Testing, Retrofit2, Coroutines, REST API, Token Authentication
+Kotlin,MVVM,MVI,Navigation Component,Hilt, Jetpack Compose, Room Persistence, Use cases, Unit Testing, Retrofit2, Coroutines, REST API, Token Authentication,Firebase FCM,Analaytics,Crashlytics 
 
 
 It contains the same overall functionality but has additional features.
 
 # Features:
 1. Kotlin
-1. MVVM
-1. Compose navigation (one activity, zero fragments)
-1. Retrieve Network Data from API (REST API)
-1. Database caching
-1. Monitoring Network Connectivity
-1. Use cases
-1. Datastore (New Shared Preferences)
-1. Unit Tests
-1. MockWebServer (Okhttp)
-1. Kotlin Flow
-1. Dependency management with Kotlin kts
+2. MVVM , MVI (some parts)
+3. Jetpack Compose navigation (one activity, zero fragments)
+4. Retrieve Network Data from API (REST API) - OkHttp,Retrofit
+5. Database caching - Room (ORM)
+6. Monitoring Network Connectivity
+7. Use cases (Dependency inversion Lmpl For Unit testing)
+8. Datastore (New Shared Preferences)
+9. Unit Tests
+10. MockWebServer (Okhttp)
+11. Kotlin Flow
+12. Dependency management with Kotlin kts
+13. Firebase FCM , Analytics , Crashlytics ...
+
 
 
 
