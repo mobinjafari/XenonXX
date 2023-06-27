@@ -50,8 +50,10 @@ android {
     buildTypes {
         getByName("release") {
             isDebuggable = true
-            isMinifyEnabled = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // this is debug becuase lack of google play keys
             signingConfig = signingConfigs.getByName("debug")
         }
     }
