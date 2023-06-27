@@ -49,9 +49,9 @@ android {
 
     buildTypes {
         getByName("release") {
-            isDebuggable = true
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             // this is debug becuase lack of google play keys
             signingConfig = signingConfigs.getByName("debug")
@@ -172,23 +172,12 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.6.1")
     // For loading and tinting drawables on older versions of the platform
     implementation ("androidx.appcompat:appcompat-resources:1.6.1")
-
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-
     implementation("io.coil-kt:coil:2.4.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
-
     implementation ("androidx.datastore:datastore-preferences:1.1.0-alpha04")
-
     implementation ("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10")
-
-
-
     implementation ("com.google.android.material:material:1.9.0")
-
-
-   // implementation ("androidx.compose.animation:animation:1.4.3")
-
     implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
-     implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
 }
