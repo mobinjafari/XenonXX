@@ -1,12 +1,12 @@
 package org.lotka.bp.di
 
 import android.content.Context
-import org.lotka.bp.presentation.BaseApplication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import org.lotka.bp.presentation.BaseApplication
 import javax.inject.Singleton
 
 @Module
