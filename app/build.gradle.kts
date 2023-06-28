@@ -21,7 +21,8 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
-    id("com.google.gms.google-services")
+    alias(libs.plugins.gms.googleServices)
+   // id("com.google.gms.google-services")
 }
 
 android {
