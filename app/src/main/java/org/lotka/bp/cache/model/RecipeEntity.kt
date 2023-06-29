@@ -8,53 +8,42 @@ import androidx.room.PrimaryKey
 data class RecipeEntity(
 
     // Value from API
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "id")
-    var id: Int,
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "id") var id: Int,
 
     // Value from API
-    @ColumnInfo(name = "title")
-    var title: String,
+    @ColumnInfo(name = "title") var title: String,
 
     // Value from API
-    @ColumnInfo(name = "publisher")
-    var publisher: String,
+    @ColumnInfo(name = "publisher") var publisher: String,
 
     // Value from API
-    @ColumnInfo(name = "featured_image")
-    var featuredImage: String,
+    @ColumnInfo(name = "featured_image") var featuredImage: String,
 
     // Value from API
-    @ColumnInfo(name = "rating")
-    var rating: Int,
+    @ColumnInfo(name = "rating") var rating: Int,
 
     // Value from API
-    @ColumnInfo(name = "source_url")
-    var sourceUrl: String,
+    @ColumnInfo(name = "source_url") var sourceUrl: String,
 
     /**
      * Value from API
      * Comma separated list of ingredients
      * EX: "carrots, cabbage, chicken,"
      */
-    @ColumnInfo(name = "ingredients")
-    var ingredients: String = "",
+    @ColumnInfo(name = "ingredients") var ingredients: String = "",
 
     /**
      * Value from API
      */
-    @ColumnInfo(name = "date_added")
-    var dateAdded: Long,
+    @ColumnInfo(name = "date_added") var dateAdded: Long,
 
     /**
      * Value from API
      */
-    @ColumnInfo(name = "date_updated")
-    var dateUpdated: Long,
+    @ColumnInfo(name = "date_updated") var dateUpdated: Long,
 
     /**
      * The date this recipe was "refreshed" in the cache.
      */
-    @ColumnInfo(name = "date_cached")
-    var dateCached: Long,
+    @ColumnInfo(name = "date_cached") var dateCached: Long,
 )

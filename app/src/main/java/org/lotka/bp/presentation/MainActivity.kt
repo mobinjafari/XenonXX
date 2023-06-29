@@ -49,20 +49,6 @@ class MainActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // send fcm token to backend
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("Push Notification", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-            // Get new FCM registration token
-            val token = task.result
-            // Log and toast
-            Log.d("TAG", "Fcm token : $token ")
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-        })
-
-
         setContent {
             MobinApp(
                 activity = this@MainActivity,
