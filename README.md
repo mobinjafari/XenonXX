@@ -1,5 +1,7 @@
 # Kotlin Best Practice Android Project
 
+[![Minimal Android CI Workflow](https://github.com/mobinjafari/Best-Practice-Kotlin/actions/workflows/android.yml/badge.svg)](https://github.com/mobinjafari/Best-Practice-Kotlin/actions/workflows/android.yml)
+
 # About repo:
 Hey there! Welcome to the awesome Best-Practice-Kotlin wiki!
 
