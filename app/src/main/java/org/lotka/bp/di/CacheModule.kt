@@ -25,6 +25,7 @@ object CacheModule {
             .build()
     }
 
+    git
     @Singleton
     @Provides
     fun provideRecipeDao(db: AppDatabase): RecipeDao {
