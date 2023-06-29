@@ -2,6 +2,11 @@
 
 [![Minimal Android CI Workflow](https://github.com/mobinjafari/Best-Practice-Kotlin/actions/workflows/android.yml/badge.svg)](https://github.com/mobinjafari/Best-Practice-Kotlin/actions/workflows/android.yml)
 
+
+# Technologies Used:
+Kotlin,MVVM,MVI,Navigation Component,Hilt, Jetpack Compose, Room Persistence, Use cases, Unit Testing, Retrofit2, Coroutines, REST API, Token Authentication,Firebase FCM,Analaytics,Crashlytics 
+
+
 # About repo:
 Hey there! Welcome to the awesome Best-Practice-Kotlin wiki!
 
@@ -9,8 +14,7 @@ This project, created by the talented Mobin Jafari, serves as a fantastic templa
 
 The best part is that everything in this project is built using the latest technologies, keeping a close eye on Google repositories to incorporate all the new features and codes. Trust me, using this GitHub repo is the ultimate way to kickstart your project. You'll find all the layers, packages, viewmodels, retrofit, and even interceptors ready to go. And don't forget about Room DB—it's as simple as copying and modifying it. Believe me, this is the most incredible project you'll come across.
 
-# Technologies:
-Kotlin,MVVM,MVI,Navigation Component,Hilt, Jetpack Compose, Room Persistence, Use cases, Unit Testing, Retrofit2, Coroutines, REST API, Token Authentication,Firebase FCM,Analaytics,Crashlytics 
+
 
 
 # Features:
