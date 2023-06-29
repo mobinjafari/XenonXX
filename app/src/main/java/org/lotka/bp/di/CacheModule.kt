@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object CacheModule {
 
+
     @Singleton
     @Provides
     fun provideDb(app: BaseApplication): AppDatabase {
