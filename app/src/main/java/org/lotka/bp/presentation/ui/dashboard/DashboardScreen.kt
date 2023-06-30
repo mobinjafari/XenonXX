@@ -69,7 +69,7 @@ enum class CraneScreen {
 
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "SuspiciousIndentation")
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
