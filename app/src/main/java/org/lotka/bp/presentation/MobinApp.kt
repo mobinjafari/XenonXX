@@ -1,6 +1,7 @@
 package org.lotka.bp.presentation
 
 import android.os.Build
+import android.util.Log
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -104,8 +105,8 @@ fun MobinApp(
 
         },
         content = { scaffoldPadding ->
-            NavHost(navController, startDestination = NavigationItem.Dashboard.route) {
 
+            NavHost(navController, startDestination =NavigationItem.Dashboard.route ) {
 
                 // Welcome New User Screen
                 composable(
@@ -185,6 +186,11 @@ fun MobinApp(
                         openDrawer = {},
                         widthSize = widthSizeClass,
                         onExploreItemClicked = {
+
+                        },
+                        onAuthFailed = {
+                            Log.d("auth-log", "on route to wellcome: ")
+                            navController.navigate(NavigationItem.Welcome.route)
 
                         }
                     )

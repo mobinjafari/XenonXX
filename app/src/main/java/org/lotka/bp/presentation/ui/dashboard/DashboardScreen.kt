@@ -36,6 +36,8 @@ import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -85,6 +87,7 @@ fun DashboardScreen(
   openDrawer: () -> Unit,
   widthSize: WindowWidthSizeClass,
   onExploreItemClicked: OnExploreItemClicked,
+  onAuthFailed: () -> Unit,
 ) {
   val configuration = LocalConfiguration.current
 
@@ -92,6 +95,17 @@ fun DashboardScreen(
   val dialogQueue = viewModel.dialogQueue
 
   val scaffoldState = rememberScaffoldState()
+
+
+  DisposableEffect(Unit) {
+    // Call your function here
+    onAuthFailed()
+
+    onDispose {
+      // Clean up or perform any necessary actions when the composable is no longer active
+    }
+  }
+
 
   AppTheme(
     displayProgressBar = loading,
@@ -213,7 +227,8 @@ private fun HomeTabBar(
   modifier: Modifier = Modifier
 ) {
   CraneTabBar(
-    modifier = modifier.statusBarsPadding()
+    modifier = modifier
+      .statusBarsPadding()
 
       .background(Color.Unspecified)
       .wrapContentWidth()
