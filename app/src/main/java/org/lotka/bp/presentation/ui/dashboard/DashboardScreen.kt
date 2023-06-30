@@ -116,11 +116,6 @@ fun DashboardScreen(
       val coroutineScope = rememberCoroutineScope()
       val craneScreenValues = CraneScreen.values()
 
-      Box {
-
-        GradientAnimation(          modifier = Modifier
-          .width(configuration.screenWidthDp.dp+20.dp)
-          .height((configuration.screenHeightDp.dp/3)*4))
 
 
 
@@ -199,7 +194,7 @@ fun DashboardScreen(
           headerHeight = 250.dp
 
         )
-      }
+
 
 
 
