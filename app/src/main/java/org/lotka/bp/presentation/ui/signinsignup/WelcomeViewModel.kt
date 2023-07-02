@@ -18,8 +18,59 @@ package org.lotka.bp.presentation.ui.signinsignup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class WelcomeViewModel(private val userRepository: UserRepository) : ViewModel() {
+
+
+
+
+    private val loginViewModelState = MutableStateFlow(LoginViewModelState())
+
+    val uiState = loginViewModelState
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            loginViewModelState.value
+        )
+
+    fun authenticateWithBackend(googleToken: String) {
+        loginViewModelState.update { it.copy(loginStatus = LoginStatus.Loading) }
+        viewModelScope.launch {
+//            authenticateWithBackendUseCase(googleToken).checkResult(
+//                onSuccess = {loginViewModelState.update { it.copy(loginStatus = LoginStatus.Success) }},
+//                onError = {loginViewModelState.update { it.copy(loginStatus = LoginStatus.Failure) }}
+//            )
+        }
+    }
+
+
+    fun onLoginError() {
+        loginViewModelState.update { it.copy(loginStatus = LoginStatus.Failure) }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     fun handleContinue(
         email: String,
@@ -39,6 +90,11 @@ class WelcomeViewModel(private val userRepository: UserRepository) : ViewModel()
         userRepository.signInAsGuest()
         onSignInComplete()
     }
+
+
+
+
+
 }
 
 class WelcomeViewModelFactory : ViewModelProvider.Factory {

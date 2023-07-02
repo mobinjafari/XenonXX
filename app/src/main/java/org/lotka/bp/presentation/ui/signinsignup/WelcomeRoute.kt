@@ -28,6 +28,7 @@ fun WelcomeRoute(
     val welcomeViewModel: WelcomeViewModel = viewModel(factory = WelcomeViewModelFactory())
 
     WelcomeScreen(
+        loginViewModel = welcomeViewModel,
         onSignInSignUp = { email ->
             welcomeViewModel.handleContinue(
                 email = email,
