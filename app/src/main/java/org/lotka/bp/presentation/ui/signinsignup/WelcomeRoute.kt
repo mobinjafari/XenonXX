@@ -36,8 +36,5 @@ fun WelcomeRoute(
                 onNavigateToSignUp = onNavigateToSignUp,
             )
         },
-        onSignInAsGuest = {
-            welcomeViewModel.signInAsGuest(onSignInAsGuest)
-        },
     )
 }

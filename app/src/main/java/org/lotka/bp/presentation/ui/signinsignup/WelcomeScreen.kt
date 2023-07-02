@@ -19,10 +19,10 @@ package org.lotka.bp.presentation.ui.signinsignup
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.content.Intent
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,77 +30,48 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import kotlinx.coroutines.launch
 import org.lotka.bp.R
-import org.lotka.bp.presentation.theme.JetsurveyTheme
 import org.lotka.bp.presentation.theme.stronglyDeemphasizedAlpha
 import org.lotka.bp.presentation.ui.util.supportWideScreen
-import org.lotka.bp.util.isBiometricSupported
 
 
 @Composable
 fun WelcomeScreen(
     loginViewModel: WelcomeViewModel,
     onSignInSignUp: (email: String) -> Unit,
-    onSignInAsGuest: () -> Unit,
 ) {
-
-    val state by loginViewModel.uiState.collectAsState()
-    val context = LocalContext.current
-
 
     fun unwrapActivity(context: Context): Context {
         var currentContext = context
@@ -121,19 +92,27 @@ fun WelcomeScreen(
     }
 
 
-    val googleSigninClient :GoogleSignInClient = getnewGoogleSignInClient(getCurrentActivity()!!.applicationContext)
+    val googleSignInClient :GoogleSignInClient = getnewGoogleSignInClient(getCurrentActivity()!!.applicationContext)
 
 
 
-
-    val startForResult =
+    val startForResult :ManagedActivityResultLauncher<Intent , ActivityResult> =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
                 if (result.data != null) {
                     val task: Task<GoogleSignInAccount> =
                         GoogleSignIn.getSignedInAccountFromIntent(intent)
-                    Log.d("WelcomeScreen",task.result.email.toString())
+                    when {
+                        task.isSuccessful -> {
+                            val account = task.result
+                            Log.d("WelcomeScreen",account!!.email.toString())
+                        }
+                        else -> {
+                            Log.d("WelcomeScreen","task is not successful")
+                        }
+                    }
+
                 }else{
                     Log.d("WelcomeScreen","result.data is null")
                 }
@@ -179,7 +158,7 @@ fun WelcomeScreen(
             SignInCreateAccount(
                 onSignInSignUp = onSignInSignUp,
                     onSignInAsGuest = {
-                    startForResult.launch(googleSigninClient!!.signInIntent!!)
+                    startForResult.launch(googleSignInClient!!.signInIntent!!)
                 },
                 onFocusChange = { focused -> showBranding = !focused },
                 modifier = Modifier
@@ -273,62 +252,4 @@ private fun SignInCreateAccount(
         )
     }
 }
-
-
-//@Composable
-//fun ButtonGoogleSignIn(
-//    onGoogleSignInCompleted: (String) -> Unit,
-//    onError: (String) -> Unit, // Modified onError function to accept an error message
-//    googleSignInClient: GoogleSignInClient,
-//) {
-//    val coroutineScope = rememberCoroutineScope()
-//    val signInRequestCode = 1
-//
-//    val authResultLauncher =
-//        rememberLauncherForActivityResult(contract = AuthResultContract()) { task ->
-//            try {
-//                val account = task?.getResult(ApiException::class.java)
-//                if (account == null) {
-//                    text = "Google sign in failed"
-//                } else {
-//                    coroutineScope.launch {
-//                        authViewModel.signIn(
-//                            email = account.email,
-//                            displayName = account.displayName,
-//                        )
-//                    }
-//                }
-//            } catch (e: ApiException) {
-//                text = "Google sign in failed"
-//            }
-//        }
-//
-//
-//    Button(
-//        onClick = { authResultLauncher.launch(signInRequestCode) },
-//        modifier = Modifier
-//            .width(300.dp)
-//            .height(45.dp),
-//        shape = RoundedCornerShape(12.dp),
-//        colors = ButtonDefaults.buttonColors(White),
-//
-//    ) {
-//        Row(
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Icon(
-//                painter = painterResource(id = R.drawable.google_nobg),
-//                contentDescription = "Google icon",
-//                tint = Color.Unspecified,
-//            )
-//            Text(
-//                text = "Login",
-//                color = Black,
-//                fontWeight = FontWeight.W600,
-//                fontSize = 16.sp,
-//                modifier = Modifier.padding(start = 10.dp)
-//            )
-//        }
-//    }
-//}
 
