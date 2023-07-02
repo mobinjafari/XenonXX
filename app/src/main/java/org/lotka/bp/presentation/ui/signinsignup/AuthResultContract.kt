@@ -5,17 +5,16 @@ import androidx.activity.result.contract.ActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import org.lotka.bp.presentation.ui.signinsignup.getGoogleSignInClient
 
-class AuthResultContract : ActivityResultContract<Unit, Task<GoogleSignInAccount>?>() {
-
-    override fun createIntent(context: Context, input: Unit): Intent =
-        getGoogleSignInClient(context).signInIntent
-
-    override fun parseResult(resultCode: Int, intent: Intent?): Task<GoogleSignInAccount>? {
-        return when (resultCode) {
-            Activity.RESULT_OK -> GoogleSignIn.getSignedInAccountFromIntent(intent)
-            else -> null
-        }
-    }
-}
+//class AuthResultContract : ActivityResultContract<Unit, Task<GoogleSignInAccount>?>() {
+//
+//    override fun createIntent(context: Context, input: Unit): Intent =
+//        getGoogleSignInClient(context).signInIntent
+//
+//    override fun parseResult(resultCode: Int, intent: Intent?): Task<GoogleSignInAccount>? {
+//        return when (resultCode) {
+//            Activity.RESULT_OK -> GoogleSignIn.getSignedInAccountFromIntent(intent)
+//            else -> null
+//        }
+//    }
+//}

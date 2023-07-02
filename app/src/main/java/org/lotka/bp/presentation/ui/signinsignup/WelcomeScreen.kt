@@ -16,12 +16,13 @@
 
 package org.lotka.bp.presentation.ui.signinsignup
 
-import AuthResultContract
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -99,9 +100,47 @@ fun WelcomeScreen(
 
     val state by loginViewModel.uiState.collectAsState()
     val context = LocalContext.current
-    var googleSigninClient :GoogleSignInClient = getGoogleSignInClient(context)
 
 
+    fun unwrapActivity(context: Context): Context {
+        var currentContext = context
+        while (currentContext is ContextWrapper) {
+            if (currentContext is ComponentActivity) {
+                return currentContext
+            }
+            currentContext = currentContext.baseContext
+        }
+        return context
+    }
+
+    @Composable
+    fun getCurrentActivity(): ComponentActivity? {
+        val context = LocalContext.current
+        val activityContext = unwrapActivity(context)
+        return activityContext as? ComponentActivity
+    }
+
+
+    val googleSigninClient :GoogleSignInClient = getnewGoogleSignInClient(getCurrentActivity()!!.applicationContext)
+
+
+
+
+    val startForResult =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                if (result.data != null) {
+                    val task: Task<GoogleSignInAccount> =
+                        GoogleSignIn.getSignedInAccountFromIntent(intent)
+                    Log.d("WelcomeScreen",task.result.email.toString())
+                }else{
+                    Log.d("WelcomeScreen","result.data is null")
+                }
+            }else{
+                Log.d("WelcomeScreen","result.resultCode is not ok")
+            }
+        }
 
 
 
@@ -137,16 +176,11 @@ fun WelcomeScreen(
             )
 
 
-//            ButtonGoogleSignIn(
-//                onGoogleSignInCompleted = { loginViewModel.authenticateWithBackend(it) },
-//                onError = { loginViewModel.onLoginError() },
-//                googleSigninClient
-//            )
-
-
             SignInCreateAccount(
                 onSignInSignUp = onSignInSignUp,
-                onSignInAsGuest = onSignInAsGuest,
+                    onSignInAsGuest = {
+                    startForResult.launch(googleSigninClient!!.signInIntent!!)
+                },
                 onFocusChange = { focused -> showBranding = !focused },
                 modifier = Modifier
                     .fillMaxWidth()
