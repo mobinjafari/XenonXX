@@ -87,6 +87,7 @@ import org.lotka.bp.R
 import org.lotka.bp.presentation.theme.JetsurveyTheme
 import org.lotka.bp.presentation.theme.stronglyDeemphasizedAlpha
 import org.lotka.bp.presentation.ui.util.supportWideScreen
+import org.lotka.bp.util.isBiometricSupported
 
 
 @Composable
@@ -113,6 +114,8 @@ fun WelcomeScreen(
                 .verticalScroll(rememberScrollState())
                 .statusBarsPadding()
         ) {
+
+
 
             Spacer(
                 modifier = Modifier
