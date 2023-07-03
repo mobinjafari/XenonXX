@@ -180,4 +180,18 @@ dependencies {
     implementation ("com.google.android.material:material:1.9.0")
     implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
     implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
+
+
+    implementation ("com.google.android.gms:play-services-auth:20.6.0")
+    implementation("com.squareup.moshi:moshi:1.14.0")
+
+
+
+    implementation ("androidx.biometric:biometric:1.2.0-alpha04")
+
+
+
+
 }
+
+

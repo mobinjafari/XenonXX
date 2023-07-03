@@ -28,6 +28,8 @@ constructor(val app: BaseApplication) {
     }
 
     val isDark = mutableStateOf(false)
+    val isUserLoggedIn = mutableStateOf(true)
+
 
     fun toggleTheme() {
         scope.launch {
@@ -43,10 +45,17 @@ constructor(val app: BaseApplication) {
             preferences[DARK_THEME_KEY]?.let { isDarkTheme ->
                 isDark.value = isDarkTheme
             }
+
+            preferences[USER_LOGGED_IN_KEY]?.let { IsLoggedIn ->
+                isUserLoggedIn.value = IsLoggedIn
+            }
+
+
         }.launchIn(scope)
     }
 
     companion object {
         private val DARK_THEME_KEY = booleanPreferencesKey("dark_theme_key")
+        private val USER_LOGGED_IN_KEY = booleanPreferencesKey("user_logged_in_key")
     }
 }

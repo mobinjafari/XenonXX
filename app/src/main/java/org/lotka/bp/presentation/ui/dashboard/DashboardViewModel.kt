@@ -25,8 +25,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lotka.bp.di.DefaultDispatcher
-import org.lotka.bp.presentation.ui.calendar.model.CalendarState
-import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Named
 import kotlin.random.Random
@@ -55,8 +53,7 @@ constructor(
     val hotels: List<ExploreModel> = destinationsRepository.hotels
     val restaurants: List<ExploreModel> = destinationsRepository.restaurants
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    val calendarState = CalendarState()
+
 
     private val _suggestedDestinations = MutableLiveData<List<ExploreModel>>()
     val suggestedDestinations: LiveData<List<ExploreModel>>
@@ -66,12 +63,7 @@ constructor(
         _suggestedDestinations.value = destinationsRepository.destinations
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun onDaySelected(daySelected: LocalDate) {
-        viewModelScope.launch {
-            calendarState.setSelectedDay(daySelected)
-        }
-    }
+
 
     fun updatePeople(people: Int) {
         viewModelScope.launch {

@@ -4,20 +4,18 @@ package org.lotka.bp.presentation
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.*
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.lotka.bp.datastore.SettingsDataStore
 import org.lotka.bp.presentation.util.ConnectivityManager
+import org.lotka.bp.util.isBiometricSupported
+import org.lotka.bp.util.showBiometricPrompt
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -48,6 +46,11 @@ class MainActivity : AppCompatActivity()  {
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (isBiometricSupported(this@MainActivity )) {
+            showBiometricPrompt(this@MainActivity)
+        } else {
+            // Handle the case when biometric authentication is not supported
+        }
 
         setContent {
             MobinApp(

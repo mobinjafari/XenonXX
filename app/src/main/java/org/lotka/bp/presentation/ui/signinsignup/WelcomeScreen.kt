@@ -16,8 +16,16 @@
 
 package org.lotka.bp.presentation.ui.signinsignup
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -25,6 +33,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,6 +43,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,23 +52,77 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.tasks.Task
 import org.lotka.bp.R
-import org.lotka.bp.presentation.theme.JetsurveyTheme
 import org.lotka.bp.presentation.theme.stronglyDeemphasizedAlpha
 import org.lotka.bp.presentation.ui.util.supportWideScreen
 
 
 @Composable
 fun WelcomeScreen(
+    loginViewModel: WelcomeViewModel,
     onSignInSignUp: (email: String) -> Unit,
-    onSignInAsGuest: () -> Unit,
 ) {
+
+    fun unwrapActivity(context: Context): Context {
+        var currentContext = context
+        while (currentContext is ContextWrapper) {
+            if (currentContext is ComponentActivity) {
+                return currentContext
+            }
+            currentContext = currentContext.baseContext
+        }
+        return context
+    }
+
+    @Composable
+    fun getCurrentActivity(): ComponentActivity? {
+        val context = LocalContext.current
+        val activityContext = unwrapActivity(context)
+        return activityContext as? ComponentActivity
+    }
+
+
+    val googleSignInClient :GoogleSignInClient = getnewGoogleSignInClient(getCurrentActivity()!!.applicationContext)
+
+
+
+    val startForResult :ManagedActivityResultLauncher<Intent , ActivityResult> =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                if (result.data != null) {
+                    val task: Task<GoogleSignInAccount> =
+                        GoogleSignIn.getSignedInAccountFromIntent(intent)
+                    when {
+                        task.isSuccessful -> {
+                            val account = task.result
+                            Log.d("WelcomeScreen",account!!.email.toString())
+                        }
+                        else -> {
+                            Log.d("WelcomeScreen","task is not successful")
+                        }
+                    }
+
+                }else{
+                    Log.d("WelcomeScreen","result.data is null")
+                }
+            }else{
+                Log.d("WelcomeScreen","result.resultCode is not ok")
+            }
+        }
+
+
+
     var showBranding by remember { mutableStateOf(true) }
 
     Surface(modifier = Modifier.supportWideScreen()) {
@@ -66,7 +130,11 @@ fun WelcomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
+                .statusBarsPadding()
         ) {
+
+
+
             Spacer(
                 modifier = Modifier
                     .weight(1f, fill = showBranding)
@@ -86,9 +154,12 @@ fun WelcomeScreen(
                     .animateContentSize()
             )
 
+
             SignInCreateAccount(
                 onSignInSignUp = onSignInSignUp,
-                onSignInAsGuest = onSignInAsGuest,
+                    onSignInAsGuest = {
+                    startForResult.launch(googleSignInClient!!.signInIntent!!)
+                },
                 onFocusChange = { focused -> showBranding = !focused },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -97,6 +168,7 @@ fun WelcomeScreen(
         }
     }
 }
+
 
 @Composable
 private fun Branding(modifier: Modifier = Modifier) {
@@ -181,14 +253,3 @@ private fun SignInCreateAccount(
     }
 }
 
-@Preview(name = "Welcome light theme", uiMode = UI_MODE_NIGHT_YES)
-@Preview(name = "Welcome dark theme", uiMode = UI_MODE_NIGHT_NO)
-@Composable
-fun WelcomeScreenPreview() {
-    JetsurveyTheme {
-        WelcomeScreen(
-            onSignInSignUp = {},
-            onSignInAsGuest = {},
-        )
-    }
-}

@@ -17,7 +17,7 @@
 <resources>
     <string name="app_name">BestPracticeKotlin</string>
 
-    <string name="app_tagline">Better surveys with Jetpack Compose</string>
+    <string name="app_tagline">Best Android Architecture Sample App</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
