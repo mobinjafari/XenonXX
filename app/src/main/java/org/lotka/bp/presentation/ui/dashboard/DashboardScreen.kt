@@ -260,7 +260,6 @@ private fun SearchContent(
 ) {
   // Reading datesSelected State from here instead of passing the String from the ViewModel
   // to cause a recomposition when the dates change.
-  val selectedDates = viewModel.calendarState.calendarUiState.value.selectedDatesFormatted
   AnimatedContent(
     targetState = tabSelected,
     transitionSpec = {
@@ -282,7 +281,7 @@ private fun SearchContent(
     when (targetState) {
       CraneScreen.Fly -> FlySearchContent(
         widthSize = widthSize,
-        datesSelected = selectedDates,
+        datesSelected = "",
         searchUpdates = FlySearchContentUpdates(
           onPeopleChanged = onPeopleChanged,
           onToDestinationChanged = { viewModel.toDestinationChanged(it) },
@@ -292,7 +291,7 @@ private fun SearchContent(
       )
       CraneScreen.Sleep -> SleepSearchContent(
         widthSize = widthSize,
-        datesSelected = selectedDates,
+        datesSelected = "",
         sleepUpdates = SleepSearchContentUpdates(
           onPeopleChanged = onPeopleChanged,
           onDateSelectionClicked = onDateSelectionClicked,
@@ -301,7 +300,7 @@ private fun SearchContent(
       )
       CraneScreen.Eat -> EatSearchContent(
         widthSize = widthSize,
-        datesSelected = selectedDates,
+        datesSelected = "",
         eatUpdates = EatSearchContentUpdates(
           onPeopleChanged = onPeopleChanged,
           onDateSelectionClicked = onDateSelectionClicked,

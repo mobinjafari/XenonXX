@@ -295,7 +295,7 @@ fun OrSignInAsGuest(
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.google_nobg),
+                painter = painterResource(id = R.drawable.ic_crane_logo),
                 contentDescription = "Google",
                 modifier = Modifier
                     .padding(start = 10.dp)
