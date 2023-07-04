@@ -19,10 +19,8 @@ package org.lotka.bp.presentation.ui.signinsignup
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.Intent
 import android.util.Log
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,10 +41,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -61,10 +59,14 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.launch
 import org.lotka.bp.R
 import org.lotka.bp.presentation.theme.stronglyDeemphasizedAlpha
 import org.lotka.bp.presentation.ui.util.supportWideScreen
+import org.lotka.bp.util.AuthResultContract
+import org.lotka.bp.util.GoogleSignInClient
 
 
 @Composable
@@ -73,52 +75,31 @@ fun WelcomeScreen(
     onSignInSignUp: (email: String) -> Unit,
 ) {
 
-    fun unwrapActivity(context: Context): Context {
-        var currentContext = context
-        while (currentContext is ContextWrapper) {
-            if (currentContext is ComponentActivity) {
-                return currentContext
-            }
-            currentContext = currentContext.baseContext
-        }
-        return context
-    }
-
-    @Composable
-    fun getCurrentActivity(): ComponentActivity? {
-        val context = LocalContext.current
-        val activityContext = unwrapActivity(context)
-        return activityContext as? ComponentActivity
-    }
+    val coroutineScope = rememberCoroutineScope()
 
 
-    val googleSignInClient :GoogleSignInClient = getnewGoogleSignInClient(getCurrentActivity()!!.applicationContext)
+    val authResultLauncher =
+        rememberLauncherForActivityResult(contract = AuthResultContract()) { task ->
+            try {
+                val account = task?.getResult(ApiException::class.java)
+                if (account == null) {
+                    Log.d("GoogleLogin", "Google sign in failed")
 
-
-
-    val startForResult :ManagedActivityResultLauncher<Intent , ActivityResult> =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data
-                if (result.data != null) {
-                    val task: Task<GoogleSignInAccount> =
-                        GoogleSignIn.getSignedInAccountFromIntent(intent)
-                    when {
-                        task.isSuccessful -> {
-                            val account = task.result
-                            Log.d("WelcomeScreen",account!!.email.toString())
-                        }
-                        else -> {
-                            Log.d("WelcomeScreen","task is not successful")
-                        }
+                } else {
+                    coroutineScope.launch {
+                        Log.d("GoogleLogin", "Google sign in succuss")
+                        loginViewModel.signIn(
+                            email = account.email.toString(),
+                            displayName = account.displayName.toString(),
+                        )
                     }
-
-                }else{
-                    Log.d("WelcomeScreen","result.data is null")
                 }
-            }else{
-                Log.d("WelcomeScreen","result.resultCode is not ok")
+            } catch (e: ApiException) {
+                Log.d("GoogleLogin", "Google sign in failed")
             }
+
+
+
         }
 
 
@@ -158,7 +139,7 @@ fun WelcomeScreen(
             SignInCreateAccount(
                 onSignInSignUp = onSignInSignUp,
                     onSignInAsGuest = {
-                    startForResult.launch(googleSignInClient!!.signInIntent!!)
+                    authResultLauncher.launch(1)
                 },
                 onFocusChange = { focused -> showBranding = !focused },
                 modifier = Modifier

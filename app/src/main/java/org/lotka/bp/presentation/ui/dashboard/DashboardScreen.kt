@@ -1,6 +1,5 @@
 package org.lotka.bp.presentation.ui.dashboard
 
-import GradientAnimation
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
