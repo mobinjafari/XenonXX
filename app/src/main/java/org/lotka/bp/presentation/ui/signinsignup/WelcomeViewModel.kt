@@ -18,58 +18,20 @@ package org.lotka.bp.presentation.ui.signinsignup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.StateFlow
+import org.lotka.bp.domain.model.GoogleUser
 
 class WelcomeViewModel(private val userRepository: UserRepository) : ViewModel() {
 
+    private val _user: MutableStateFlow<GoogleUser?> = MutableStateFlow(null)
+    val user: StateFlow<GoogleUser?> = _user
 
-
-
-    private val loginViewModelState = MutableStateFlow(LoginViewModelState())
-
-    val uiState = loginViewModelState
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Eagerly,
-            loginViewModelState.value
-        )
-
-    fun authenticateWithBackend(googleToken: String) {
-        loginViewModelState.update { it.copy(loginStatus = LoginStatus.Loading) }
-        viewModelScope.launch {
-//            authenticateWithBackendUseCase(googleToken).checkResult(
-//                onSuccess = {loginViewModelState.update { it.copy(loginStatus = LoginStatus.Success) }},
-//                onError = {loginViewModelState.update { it.copy(loginStatus = LoginStatus.Failure) }}
-//            )
-        }
+    suspend fun signIn(email: String, displayName: String) {
+        delay(2000) // Simulating network call
+        _user.value = GoogleUser(email, displayName)
     }
-
-
-    fun onLoginError() {
-        loginViewModelState.update { it.copy(loginStatus = LoginStatus.Failure) }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     fun handleContinue(
@@ -90,7 +52,6 @@ class WelcomeViewModel(private val userRepository: UserRepository) : ViewModel()
         userRepository.signInAsGuest()
         onSignInComplete()
     }
-
 
 
 
