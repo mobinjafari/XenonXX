@@ -1,70 +1,130 @@
-name: Minimal Android CI Workflow
+name: Android CI
 
 on:
   push:
-    branches:
-      - master
-    tags:
-      - 'v*'
-      
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 
 
 jobs:
-  test:
-    name: Run Unit Tests
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Setup JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
+      - uses: actions/checkout@v2
 
-  apk:
-    name: Generate APK
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Setup JDK
-        uses: actions/setup-java@v1
+      # Notify Telegram - Build Start
+      - name: Notify Telegram - Build Start
+        uses: appleboy/telegram-action@master
         with:
-          java-version: 17
-      - name: Build APK
-        run: bash ./gradlew assembleRelease --stacktrace
-      - name: Upload APK
-        uses: actions/upload-artifact@v1
+          to: ${{ secrets.bot_chat_id }}
+          token: ${{ secrets.bot_token }}
+          message: "Android CI build process has commenced and is expected to conclude within approximately 30 minutes ..."
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          name: apk
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > ${{github.workspace}}/app/google-services.json
+
+      - name: Decode google-play-sign
+        run: echo "${{ secrets.GOOGLE_PLAY_SIGNFILE }}" | base64 -d > ${{github.workspace}}/app/portalgoogleplaysign.jks
+
+
+      - name: Build Release App Bundle
+        run: ./gradlew bundleRelease
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      # - name: Build Debug APK
+      #   run: ./gradlew assembleDebug
+
+
+      # - name: Upload Debug APK
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: appDebugBuild
+      #     path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: appReleaseBuild
           path: app/build/outputs/apk/release/app-release.apk
 
-  release:
-    name: Release APK
-    needs: apk
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download APK
-        uses: actions/download-artifact@v1
-        with:
-          name: apk
+
+      # Get Version Code
+      - name: Get Version Code
+        run: echo "VERSION_CODE=$(./gradlew -q printVersionCode)" >> $GITHUB_ENV
+
+      # Get Version Name
+      - name: Get Version Name
+        run: echo "VERSION_NAME=$(./gradlew -q printVersionName)" >> $GITHUB_ENV
+
+
+      - name: Generate unique tag name
+        run: echo "UNIQUE_TAG=$(date +%Y%m%d%H%M%S)-${GITHUB_SHA::8}" >> $GITHUB_ENV
+
+
+      # Create GitHub Release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.HGITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CLASSIC_PAT }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-      - name: Upload Release APK
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.1
+          tag_name: ${{ env.UNIQUE_TAG }}
+          release_name: Release v${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}
+          draft: false
+          prerelease: false
+          body: |
+            ### What's in this release
+            - Debug APK
+            - Release APK
+            - Source Code
+      # Send APKs to Telegram with renamed APK files
+      - name: Upload APKs to Telegram
+        run: |
+          # mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Debug_APK_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.apk
+          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/Release_APK_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.apk
+          mv app/build/outputs/bundle/release/app-release.aab app/build/outputs/bundle/release/Release_Bundle_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.aab
+          mv app/build/outputs/mapping/release/mapping.txt app/build/outputs/mapping/release/Mapping_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.txt
+          # curl -F chat_id="${{ secrets.bot_chat_id }}" \
+          #      -F document=@"app/build/outputs/apk/debug/Debug_APK_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.apk" \
+          #      -X POST "https://api.telegram.org/bot${{ secrets.bot_token }}/sendDocument"
+          curl -F chat_id="${{ secrets.bot_chat_id }}" \
+               -F document=@"app/build/outputs/apk/release/Release_APK_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.apk" \
+               -X POST "https://api.telegram.org/bot${{ secrets.bot_token }}/sendDocument"
+          curl -F chat_id="${{ secrets.bot_chat_id }}" \
+               -F document=@"app/build/outputs/bundle/release/Release_Bundle_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.aab" \
+               -X POST "https://api.telegram.org/bot${{ secrets.bot_token }}/sendDocument"
+          curl -F chat_id="${{ secrets.bot_chat_id }}" \
+               -F document=@"app/build/outputs/mapping/release/Mapping_Version_${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.txt" \
+               -X POST "https://api.telegram.org/bot${{ secrets.bot_token }}/sendDocument"
         env:
-          GITHUB_TOKEN: ${{ secrets.HGITHUB_TOKEN }}
+          bot_chat_id: ${{ secrets.bot_chat_id }}
+          bot_token: ${{ secrets.bot_token }}
+
+      # Notify Telegram - Build Summary
+      - name: Notify Telegram - Build Summary
+        uses: appleboy/telegram-action@master
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: apk/app-release.apk
-          asset_name: MensaApp.apk
-          asset_content_type: application/vnd.android.package-archive
+          to: ${{ secrets.bot_chat_id }}
+          token: ${{ secrets.bot_token }}
+          message: "Android CI build completed : ${{ job.status }}"
